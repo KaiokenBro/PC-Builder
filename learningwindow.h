@@ -1,6 +1,8 @@
 #ifndef LEARNINGWINDOW_H
 #define LEARNINGWINDOW_H
 
+#include "testwindow.h"
+
 #include <QMainWindow>
 
 namespace Ui { class LearningWindow; }
@@ -10,12 +12,21 @@ class LearningWindow : public QMainWindow {
 
 public:
 
-    explicit LearningWindow(QWidget *parent = nullptr);
+    explicit LearningWindow(TestWindow* testWindow, QWidget* parent = nullptr);
     ~LearningWindow();
 
 private:
 
-    Ui::LearningWindow *ui;
+    Ui::LearningWindow* ui;
+    TestWindow* testWindow;
+
+private slots:
+
+    void onTestButtonClicked();
+
+signals:
+
+
 
 };
 

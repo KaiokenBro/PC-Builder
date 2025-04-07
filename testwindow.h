@@ -10,12 +10,20 @@ class TestWindow : public QMainWindow {
 
 public:
 
-    explicit TestWindow(QWidget *parent = nullptr);
+    explicit TestWindow(QWidget* parent = nullptr);
     ~TestWindow();
 
 private:
 
     Ui::TestWindow *ui;
+
+private slots:
+
+
+
+signals:
+
+
 
 };
 

@@ -3,7 +3,7 @@
 #include "learningwindow.h"
 
 // CONSTRUCTOR
-MainWindow::MainWindow(LearningWindow* learningWindow, QWidget *parent) :
+MainWindow::MainWindow(LearningWindow* learningWindow, QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {

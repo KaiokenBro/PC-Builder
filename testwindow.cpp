@@ -1,13 +1,15 @@
 #include "testwindow.h"
 #include "ui_testwindow.h"
 
-TestWindow::TestWindow(QWidget *parent) :
+// CONSTRUCTOR
+TestWindow::TestWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::TestWindow)
 {
     ui->setupUi(this);
 }
 
+// DESTRUCTOR
 TestWindow::~TestWindow() {
     delete ui;
 }
