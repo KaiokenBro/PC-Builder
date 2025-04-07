@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 
+#include "learningwindow.h"
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -12,12 +14,21 @@ class MainWindow : public QMainWindow {
 
 public:
 
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(LearningWindow* learningWindow, QWidget* parent = nullptr);
     ~MainWindow();
 
 private:
 
-    Ui::MainWindow *ui;
+    Ui::MainWindow* ui;
+    LearningWindow* learningWindow;
+
+private slots:
+
+    void onStartButtonClicked();
+
+signals:
+
+
 
 };
 
