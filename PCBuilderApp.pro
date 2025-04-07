@@ -57,7 +57,8 @@ SOURCES += \
     Box2D/Rope/b2Rope.cpp \
     learningwindow.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    testwindow.cpp
 
 HEADERS += \
     Box2D/Box2D.h \
@@ -108,11 +109,13 @@ HEADERS += \
     Box2D/Dynamics/b2WorldCallbacks.h \
     Box2D/Rope/b2Rope.h \
     learningwindow.h \
-    mainwindow.h
+    mainwindow.h \
+    testwindow.h
 
 FORMS += \
     learningwindow.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    testwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
