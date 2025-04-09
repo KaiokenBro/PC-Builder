@@ -1,5 +1,6 @@
 #include "learningwindow.h"
 #include "ui_learningwindow.h"
+#include "infobox.h"
 
 // CONSTRUCTOR
 LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
@@ -8,6 +9,14 @@ LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
 {
     ui->setupUi(this);
     this->testWindow = testWindow;
+
+    // Install event handler for mouseclicks on part labels.
+    ui->caseLabel->installEventFilter(this);
+    ui->memoryLabel->installEventFilter(this);
+    ui->motherboardLabel->installEventFilter(this);
+    ui->gpuLabel->installEventFilter(this);
+    ui->cpuLabel->installEventFilter(this);
+    ui->ramLabel->installEventFilter(this);
 
     // PC Case Image
     QPixmap casePixmap(":/images/case.png");
@@ -52,8 +61,11 @@ LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
             &LearningWindow::onTestButtonClicked
     );
 
-
-
+    // When assembleButton clicked assemble PC parts.
+    connect(ui->assembleButton,
+            &QPushButton::clicked,
+            this,
+            &LearningWindow::assemblePC);
 }
 
 // DESTRUCTOR
@@ -65,4 +77,72 @@ LearningWindow::~LearningWindow() {
 void LearningWindow::onTestButtonClicked() {
     this->hide();
     testWindow->show();
+}
+
+// METHOD
+bool LearningWindow::eventFilter(QObject* watched, QEvent* event) {
+    if (event->type() == QEvent::MouseButtonPress) {
+        if (watched == ui->gpuLabel) {
+            showInfo("GPU", "This is the graphics card.");
+            return true;
+        } else if (watched == ui->cpuLabel) {
+            showInfo("CPU", "This is the processor.");
+            return true;
+        } else if (watched == ui->ramLabel) {
+            showInfo("RAM", "This is the RAM.");
+            return true;
+        } else if (watched == ui->memoryLabel){
+            showInfo("Memory", "This is the memory");
+            return true;
+        } else if (watched == ui->caseLabel){
+            showInfo("Case", "This is the case");
+            return true;
+        } else if (watched == ui->motherboardLabel){
+            showInfo("Motherboard", "This is the motherboard");
+            return true;
+        }
+    }
+    return QMainWindow::eventFilter(watched, event);
+}
+
+// SLOT
+void LearningWindow::showInfo(const QString& title, const QString& text) {
+    // Create info box with the clicked parts information and open box.
+    InfoBox* dialog = new InfoBox(title, text, this);
+    dialog->exec();
+
+    // Close when done.
+    delete dialog;
+}
+
+// SLOT
+void LearningWindow::assemblePC() {
+    // Set the position and size for the parts.
+    animatePart(ui->gpuLabel, QPoint(175, 250), QSize(300, 300));
+    animatePart(ui->cpuLabel, QPoint(290, 125), QSize(80, 80));
+    animatePart(ui->ramLabel, QPoint(160, 220), QSize(100, 50));
+    animatePart(ui->memoryLabel, QPoint(50, 100), QSize(100, 50));
+    animatePart(ui->motherboardLabel, QPoint(175, 75), QSize(300, 300));
+    animatePart(ui->caseLabel, QPoint(0, 0), QSize(800, 500));
+
+    // Move the buttons to the front so the parts do not overlap.
+    ui->assembleButton->raise();
+    ui->testButton->raise();
+}
+
+void LearningWindow::animatePart(QWidget* part, const QPoint& endPos, const QSize& endSize) {
+    // Set up postioning animation.
+    QPropertyAnimation* posAnim = new QPropertyAnimation(part, "pos");
+    posAnim->setDuration(3000);
+    posAnim->setEndValue(endPos);
+
+    // Set up sizing animation.
+    QPropertyAnimation* sizeAnim = new QPropertyAnimation(part, "size");
+    sizeAnim->setDuration(3000);
+    sizeAnim->setStartValue(part->size());
+    sizeAnim->setEndValue(endSize);
+
+    // Start the animations.
+    posAnim->start(QAbstractAnimation::DeleteWhenStopped);
+    sizeAnim->start(QAbstractAnimation::DeleteWhenStopped);
 }

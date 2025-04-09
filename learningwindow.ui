@@ -59,7 +59,7 @@
    <widget class="QLabel" name="motherboardLabel">
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>50</x>
       <y>10</y>
       <width>200</width>
       <height>200</height>

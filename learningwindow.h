@@ -2,8 +2,8 @@
 #define LEARNINGWINDOW_H
 
 #include "testwindow.h"
-
 #include <QMainWindow>
+#include <QPropertyAnimation>
 
 namespace Ui { class LearningWindow; }
 
@@ -14,14 +14,16 @@ public:
 
     explicit LearningWindow(TestWindow* testWindow, QWidget* parent = nullptr);
     ~LearningWindow();
+    bool eventFilter(QObject* watched, QEvent* event) override;
+    void animatePart(QWidget* part, const QPoint& endPos, const QSize& endSize);
 
 private:
-
     Ui::LearningWindow* ui;
     TestWindow* testWindow;
 
 private slots:
-
+    void showInfo(const QString& title, const QString& text);
+    void assemblePC();
     void onTestButtonClicked();
 
 signals:
