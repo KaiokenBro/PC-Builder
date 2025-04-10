@@ -178,11 +178,14 @@ void LearningWindow::toggleStepByStep() {
         //Return PC parts to their original positions
         ui->nextButton->setEnabled(false);
         ui->previousButton->setEnabled(false);
-        currentStep = 0;
+        ui->assembleButton->setEnabled(true);
+        stepByStepToggled = false;
+
     } else {
-
         ui->nextButton->setEnabled(true);
-
+        ui->assembleButton->setEnabled(false);
+        currentStep = 0;
+        stepByStepToggled = true;
     }
 }
 
