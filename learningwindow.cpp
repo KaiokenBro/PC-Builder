@@ -100,24 +100,29 @@ void LearningWindow::onTestButtonClicked() {
 bool LearningWindow::eventFilter(QObject* watched, QEvent* event) {
     if (event->type() == QEvent::MouseButtonPress) {
         if (watched == ui->gpuLabel) {
-            showInfo("GPU", "This is the graphics card.");
+            showInfo("GPU", "This is often called the graphics card, this handles graphics and visual output. "
+                            "It connects to the motherboard via a PCIe slot.");
             return true;
         } else if (watched == ui->cpuLabel) {
-            showInfo("CPU", "This is the processor.");
+            showInfo("CPU", "The ""brain"" of the computer, this handles all the instructions, "
+                            "this plugs into the motherboard’s CPU socket.");
             return true;
         } else if (watched == ui->ramLabel) {
-            showInfo("RAM", "This is the RAM.");
+            showInfo("RAM", "This is the RAM, this acts as temporary memory for active data and programs. "
+                            "This is installed into the motherboard’s RAM slots.");
             return true;
-        } else if (watched == ui->memoryLabel){
-            showInfo("Memory", "This is the memory");
+        } else if (watched == ui->memoryLabel) {
+            showInfo("Memory", "This is the memory of the computer, fast storage device for files and the operating system."
+                               " It plugs into the motherboard’s M.2 slot.");
             return true;
-        } else if (watched == ui->caseLabel){
-            showInfo("Case", "This is the case");
+        } else if (watched == ui->caseLabel) {
+            showInfo("Case", "This is the case that puts all the pieces together");
             return true;
-        } else if (watched == ui->motherboardLabel){
-            showInfo("Motherboard", "This is the motherboard");
+        } else if (watched == ui->motherboardLabel) {
+            showInfo("Motherboard", "The main circuit board that connects all components, this houses slots and ports for the CPU, RAM, GPU, and storage.");
             return true;
         }
+
     }
     return QMainWindow::eventFilter(watched, event);
 }

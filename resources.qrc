@@ -6,5 +6,6 @@
         <file>cpu.png</file>
         <file>memory.png</file>
         <file>ram.png</file>
+        <file>PC Builder Pic.png</file>
     </qresource>
 </RCC>
