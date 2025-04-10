@@ -9,6 +9,7 @@ LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
 {
     ui->setupUi(this);
     this->testWindow = testWindow;
+    stepByStepToggled = false;
 
     // Install event handler for mouseclicks on part labels.
     ui->caseLabel->installEventFilter(this);
@@ -66,6 +67,22 @@ LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
             &QPushButton::clicked,
             this,
             &LearningWindow::assemblePC);
+
+    // Enable/Disable Step by Step button
+    connect(ui->stepByStepButton,
+            &QPushButton::clicked,
+            this,
+            &LearningWindow::toggleStepByStep);
+
+    connect(ui->nextButton,
+            &QPushButton::clicked,
+            this,
+            &LearningWindow::nextStep);
+
+    connect(ui->previousButton,
+            &QPushButton::clicked,
+            this,
+            &LearningWindow::previousStep);
 }
 
 // DESTRUCTOR
@@ -128,6 +145,46 @@ void LearningWindow::assemblePC() {
     // Move the buttons to the front so the parts do not overlap.
     ui->assembleButton->raise();
     ui->testButton->raise();
+}
+
+void LearningWindow::toggleStepByStep() {
+    if(stepByStepToggled) {
+        //Return PC parts to their original positions
+        ui->nextButton->setEnabled(false);
+        ui->previousButton->setEnabled(false);
+        currentStep = 0;
+    } else {
+
+        ui->nextButton->setEnabled(true);
+
+    }
+}
+
+void LearningWindow::nextStep() {
+    // Enable previousButton if first step
+    if(currentStep == 0) {
+        ui->previousButton->setEnabled(true);
+    }
+
+    currentStep++;
+
+    // Animate based off of currentStep
+
+    if(currentStep == 5){
+        ui->nextButton->setEnabled(false);
+    }
+}
+
+void LearningWindow::previousStep() {
+    currentStep--;
+
+    if(currentStep == 0) {
+        ui->previousButton->setEnabled(false);
+    } else if(currentStep == 4){
+        ui->nextButton->setEnabled(true);
+    }
+
+    // Return to previous step based off of current step
 }
 
 void LearningWindow::animatePart(QWidget* part, const QPoint& endPos, const QSize& endSize) {

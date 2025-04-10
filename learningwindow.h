@@ -20,11 +20,16 @@ public:
 private:
     Ui::LearningWindow* ui;
     TestWindow* testWindow;
+    bool stepByStepToggled;
+    int currentStep;
 
 private slots:
     void showInfo(const QString& title, const QString& text);
     void assemblePC();
     void onTestButtonClicked();
+    void toggleStepByStep();
+    void nextStep();
+    void previousStep();
 
 signals:
 
