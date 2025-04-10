@@ -5,7 +5,8 @@
 // CONSTRUCTOR
 LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
     QMainWindow(parent),
-    ui(new Ui::LearningWindow)
+    ui(new Ui::LearningWindow),
+    isAssembled(false)
 {
     ui->setupUi(this);
     this->testWindow = testWindow;
@@ -18,6 +19,14 @@ LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
     ui->gpuLabel->installEventFilter(this);
     ui->cpuLabel->installEventFilter(this);
     ui->ramLabel->installEventFilter(this);
+
+    // Store the original positions and sizes of the labels.
+    originalPosSizes["case"] = qMakePair(ui->caseLabel->pos(), ui->caseLabel->size());
+    originalPosSizes["memory"] = qMakePair( ui->memoryLabel->pos(), ui->memoryLabel->size());
+    originalPosSizes["motherboard"] = qMakePair( ui->motherboardLabel->pos(), ui->motherboardLabel->size());
+    originalPosSizes["gpu"] = qMakePair( ui->gpuLabel->pos(), ui->gpuLabel->size());
+    originalPosSizes["cpu"] = qMakePair( ui->cpuLabel->pos(), ui->cpuLabel->size());
+    originalPosSizes["ram"] = qMakePair( ui->ramLabel->pos(), ui->ramLabel->size());
 
     // PC Case Image
     QPixmap casePixmap(":/images/case.png");
@@ -139,14 +148,26 @@ void LearningWindow::showInfo(const QString& title, const QString& text) {
 
 // SLOT
 void LearningWindow::assemblePC() {
-    // Set the position and size for the parts.
-    animatePart(ui->gpuLabel, QPoint(175, 250), QSize(300, 300));
-    animatePart(ui->cpuLabel, QPoint(290, 125), QSize(80, 80));
-    animatePart(ui->ramLabel, QPoint(160, 220), QSize(100, 50));
-    animatePart(ui->memoryLabel, QPoint(50, 100), QSize(100, 50));
-    animatePart(ui->motherboardLabel, QPoint(175, 75), QSize(300, 300));
-    animatePart(ui->caseLabel, QPoint(0, 0), QSize(800, 500));
-
+    if (!isAssembled) {
+        // Set the position and size for the parts.
+        animatePart(ui->gpuLabel, QPoint(175, 250), QSize(300, 300));
+        animatePart(ui->cpuLabel, QPoint(290, 125), QSize(80, 80));
+        animatePart(ui->ramLabel, QPoint(160, 220), QSize(100, 50));
+        animatePart(ui->memoryLabel, QPoint(50, 100), QSize(100, 50));
+        animatePart(ui->motherboardLabel, QPoint(175, 75), QSize(300, 300));
+        animatePart(ui->caseLabel, QPoint(0, 0), QSize(800, 500));
+        isAssembled = true;
+    }
+    else {
+        // Revert the position and size for the parts.
+        animatePart(ui->gpuLabel, originalPosSizes["gpu"].first, originalPosSizes["gpu"].second);
+        animatePart(ui->cpuLabel, originalPosSizes["cpu"].first, originalPosSizes["cpu"].second);
+        animatePart(ui->ramLabel, originalPosSizes["ram"].first, originalPosSizes["ram"].second);
+        animatePart(ui->memoryLabel, originalPosSizes["memory"].first, originalPosSizes["memory"].second);
+        animatePart(ui->motherboardLabel, originalPosSizes["motherboard"].first, originalPosSizes["motherboard"].second);
+        animatePart(ui->caseLabel, originalPosSizes["case"].first, originalPosSizes["case"].second);
+        isAssembled = false;
+    }
     // Move the buttons to the front so the parts do not overlap.
     ui->assembleButton->raise();
     ui->testButton->raise();

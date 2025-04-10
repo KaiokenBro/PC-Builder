@@ -4,6 +4,7 @@
 #include "testwindow.h"
 #include <QMainWindow>
 #include <QPropertyAnimation>
+#include <QMap>
 
 namespace Ui { class LearningWindow; }
 
@@ -22,6 +23,8 @@ private:
     TestWindow* testWindow;
     bool stepByStepToggled;
     int currentStep;
+    QMap<QString, QPair<QPoint, QSize>> originalPosSizes;
+    bool isAssembled;
 
 private slots:
     void showInfo(const QString& title, const QString& text);
