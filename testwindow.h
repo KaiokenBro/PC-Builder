@@ -1,6 +1,7 @@
 #ifndef TESTWINDOW_H
 #define TESTWINDOW_H
 
+#include "infobox.h"
 #include <QPainter>
 #include <QMimeData>
 #include <QMainWindow>
@@ -24,6 +25,8 @@ private:
 
     Ui::TestWindow *ui;
     QSize lastSize;
+    QString lastName;
+    int step;
 
 private slots:
     void mousePressEvent(QMouseEvent *event);
@@ -31,7 +34,6 @@ private slots:
     void dragMoveEvent(QDragMoveEvent *event);
     void dragEnterEvent(QDragEnterEvent *event);
     QPoint snapLocation(QPoint cursor);
-
 
 signals:
 

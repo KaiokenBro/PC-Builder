@@ -7,7 +7,9 @@
 TestWindow::TestWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::TestWindow),
-    lastSize(QSize(0,0))
+    lastSize(QSize(0,0)),
+    lastName("none"),
+    step(1)
 {
     ui->setupUi(this);
     setMouseTracking(true);
@@ -97,6 +99,7 @@ void TestWindow::dropEvent(QDropEvent *event)
         newIcon->setPixmap(pixmap);
         newIcon->move(newLocal);
         newIcon->resize(lastSize);
+        newIcon->setObjectName(lastName);
         newIcon->setScaledContents(true);
         newIcon->show();
         newIcon->setAttribute(Qt::WA_DeleteOnClose);
@@ -115,9 +118,11 @@ void TestWindow::dropEvent(QDropEvent *event)
 void TestWindow::mousePressEvent(QMouseEvent *event)
 {
     QLabel *child = static_cast<QLabel*>(childAt(event->pos()));
-    if (!child || child->objectName() == "caseLabel")
+    if (!child || child->objectName() == "caseLabel" || child->objectName() == "centralwidget"){
         return;
+    }
     lastSize = child->size();
+    lastName = child->objectName();
     QPixmap pixmap = child->pixmap();
 
     QByteArray itemData;
@@ -129,10 +134,12 @@ void TestWindow::mousePressEvent(QMouseEvent *event)
 
     QDrag *drag = new QDrag(this);
     drag->setMimeData(mimeData);
-    drag->setPixmap(pixmap);
+    drag->setPixmap(pixmap.scaled(lastSize.width(), lastSize.height()));
     drag->setHotSpot(event->pos() - child->pos());
 
     child->setPixmap(pixmap);
+    child->resize(lastSize);
+    child->setScaledContents(true);
 
     if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) == Qt::MoveAction) {
         child->close();
@@ -166,6 +173,8 @@ QPoint TestWindow::snapLocation(QPoint cursor)
     }
     // No where to snap to drop where it is
     else{
-        return cursor;
+        QPoint newDrop = QPoint(cursor.x() - .5*lastSize.width(), cursor.y() - .5*lastSize.height());
+        return newDrop;
     }
 }
+
