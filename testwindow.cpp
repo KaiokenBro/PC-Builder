@@ -1,5 +1,7 @@
 #include "testwindow.h"
 #include "ui_testwindow.h"
+#include "testchecker.h"
+#include "infobox.h"
 
 #include <QDebug>
 
@@ -9,10 +11,16 @@ TestWindow::TestWindow(QWidget* parent) :
     ui(new Ui::TestWindow),
     lastSize(QSize(0,0)),
     lastName("none"),
-    step(1)
+    step(1),
+    dontMove({"caseLabel", "centralwidget"})
 {
     ui->setupUi(this);
     setMouseTracking(true);
+
+    TestChecker *testChecker = new TestChecker();
+    connect(this, &TestWindow::checkAnswer, testChecker, &TestChecker::checkPlacement);
+    connect(testChecker, &TestChecker::sendAnswer, this, &TestWindow::receiveAnswer);
+
     // PC Case Image
     QPixmap casePixmap(":/images/case.png");
     ui->caseLabel->setPixmap(casePixmap);
@@ -110,6 +118,7 @@ void TestWindow::dropEvent(QDropEvent *event)
         } else {
             event->acceptProposedAction();
         }
+        emit checkAnswer(step, lastName, newLocal);
     } else {
         event->ignore();
     }
@@ -118,7 +127,7 @@ void TestWindow::dropEvent(QDropEvent *event)
 void TestWindow::mousePressEvent(QMouseEvent *event)
 {
     QLabel *child = static_cast<QLabel*>(childAt(event->pos()));
-    if (!child || child->objectName() == "caseLabel" || child->objectName() == "centralwidget"){
+    if (!child || dontMove.contains(child->objectName())){
         return;
     }
     lastSize = child->size();
@@ -163,11 +172,11 @@ QPoint TestWindow::snapLocation(QPoint cursor)
     else if(65 <= cursor.x() && cursor.x() <= 165 && 290 <= cursor.y() && cursor.y() <= 340){
         return QPoint(65, 290);
     }
-    // Motherboard Location
+    // GPU Location
     else if(200 <= cursor.x() && cursor.x() <= 430 && 560 <= cursor.y() && cursor.y() <= 630){
         return QPoint(180, 440);
     }
-    // GPU location
+    // Motherboard location
     else if(150 <= cursor.x() && cursor.x() <= 450 && 290 <= cursor.y() && cursor.y() <= 590){
         return QPoint(200, 245);
     }
@@ -175,6 +184,36 @@ QPoint TestWindow::snapLocation(QPoint cursor)
     else{
         QPoint newDrop = QPoint(cursor.x() - .5*lastSize.width(), cursor.y() - .5*lastSize.height());
         return newDrop;
+    }
+}
+
+void TestWindow::receiveAnswer(bool correctness, QString reason, QString part){
+    if(step == 5 && correctness){
+        dontMove.append(part);
+        // Create info box letting you know you made the computer correctly.
+        InfoBox* dialog = new InfoBox("Great Job!!", "Enjoy the new PC", this);
+        dialog->exec();
+
+        // Close when done.
+        delete dialog;
+    }
+    else if(correctness){
+        dontMove.append(part);
+        step++;
+        // Create info box letting you know you were right.
+        InfoBox* dialog = new InfoBox("Correct", "Keep Going!", this);
+        dialog->exec();
+
+        // Close when done.
+        delete dialog;
+    }
+    else{
+        // Create info box with the reason why you were incorrect.
+        InfoBox* dialog = new InfoBox("Incorrect", reason, this);
+        dialog->exec();
+
+        // Close when done.
+        delete dialog;
     }
 }
 

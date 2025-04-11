@@ -59,6 +59,7 @@ SOURCES += \
     learningwindow.cpp \
     main.cpp \
     mainwindow.cpp \
+    testchecker.cpp \
     testwindow.cpp
 
 HEADERS += \
@@ -112,6 +113,7 @@ HEADERS += \
     infobox.h \
     learningwindow.h \
     mainwindow.h \
+    testchecker.h \
     testwindow.h
 
 FORMS += \

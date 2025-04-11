@@ -1,8 +1,6 @@
 #ifndef TESTWINDOW_H
 #define TESTWINDOW_H
 
-#include "infobox.h"
-#include <QPainter>
 #include <QMimeData>
 #include <QMainWindow>
 #include <QDropEvent>
@@ -27,6 +25,7 @@ private:
     QSize lastSize;
     QString lastName;
     int step;
+    QList<QString> dontMove;
 
 private slots:
     void mousePressEvent(QMouseEvent *event);
@@ -36,7 +35,10 @@ private slots:
     QPoint snapLocation(QPoint cursor);
 
 signals:
+    void checkAnswer(int step, QString part, QPoint location);
 
+public slots:
+    void receiveAnswer(bool correctness, QString reason, QString part);
 
 
 };
