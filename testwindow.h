@@ -1,7 +1,14 @@
 #ifndef TESTWINDOW_H
 #define TESTWINDOW_H
 
+#include <QPainter>
+#include <QMimeData>
 #include <QMainWindow>
+#include <QDropEvent>
+#include <QMoveEvent>
+#include <QDragMoveEvent>
+#include <QDrag>
+#include <QPoint>
 
 namespace Ui { class TestWindow; }
 
@@ -16,9 +23,14 @@ public:
 private:
 
     Ui::TestWindow *ui;
+    QSize lastSize;
 
 private slots:
-
+    void mousePressEvent(QMouseEvent *event);
+    void dropEvent(QDropEvent *event);
+    void dragMoveEvent(QDragMoveEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event);
+    QPoint snapLocation(QPoint cursor);
 
 
 signals:
