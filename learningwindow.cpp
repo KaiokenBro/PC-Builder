@@ -181,11 +181,26 @@ void LearningWindow::toggleStepByStep() {
         ui->assembleButton->setEnabled(true);
         stepByStepToggled = false;
 
+        //Revert the position and size for all of the parts.
+        animatePart(ui->gpuLabel, originalPosSizes["gpu"].first, originalPosSizes["gpu"].second);
+        animatePart(ui->cpuLabel, originalPosSizes["cpu"].first, originalPosSizes["cpu"].second);
+        animatePart(ui->ramLabel, originalPosSizes["ram"].first, originalPosSizes["ram"].second);
+        animatePart(ui->memoryLabel, originalPosSizes["memory"].first, originalPosSizes["memory"].second);
+        animatePart(ui->motherboardLabel, originalPosSizes["motherboard"].first, originalPosSizes["motherboard"].second);
+        animatePart(ui->caseLabel, originalPosSizes["case"].first, originalPosSizes["case"].second);
     } else {
         ui->nextButton->setEnabled(true);
         ui->assembleButton->setEnabled(false);
         currentStep = 0;
         stepByStepToggled = true;
+
+        //Set up PC components for step by step animation
+        animatePart(ui->caseLabel, QPoint(50, 100), QSize(700, 400));
+        animatePart(ui->motherboardLabel, QPoint(50, 10), QSize(151, 151));
+        animatePart(ui->cpuLabel, QPoint(300, 10), QSize(121, 121));
+        animatePart(ui->gpuLabel, QPoint(630, 10), QSize(161, 151));
+        animatePart(ui->memoryLabel, QPoint(650, 220), QSize(141, 81));
+        animatePart(ui->ramLabel, QPoint(640, 440), QSize(151, 41));
     }
 }
 
@@ -193,6 +208,28 @@ void LearningWindow::nextStep() {
     // Enable previousButton if first step
     if(currentStep == 0) {
         ui->previousButton->setEnabled(true);
+
+        // Save the previous motherboard position
+        previousPosSizes["motherboard"] = qMakePair( ui->motherboardLabel->pos(), ui->motherboardLabel->size());
+
+        // Put the Motherboard into place
+        animatePart(ui->motherboardLabel, QPoint(200, 150), QSize(275, 275));
+
+
+        //Maybe display text saying "First, install the motherboard in the PC case"?
+    } else if (currentStep == 1){
+
+        // Save the previous CPU position
+        previousPosSizes["cpu"] = qMakePair( ui->cpuLabel->pos(), ui->cpuLabel->size());
+
+        animatePart(ui->cpuLabel, QPoint(300, 195), QSize(80, 80));
+    } else if (currentStep == 2) {
+
+        // Save the previous GPU position
+        previousPosSizes["gpu"] = qMakePair( ui->gpuLabel->pos(), ui->gpuLabel->size());
+
+
+        animatePart(ui->gpuLabel, QPoint(175, 250), QSize(225, 225));
     }
 
     currentStep++;
@@ -205,13 +242,25 @@ void LearningWindow::nextStep() {
 }
 
 void LearningWindow::previousStep() {
-    currentStep--;
 
-    if(currentStep == 0) {
+
+    if(currentStep == 1) {
         ui->previousButton->setEnabled(false);
-    } else if(currentStep == 4){
+        animatePart(ui->motherboardLabel, previousPosSizes["motherboard"].first, previousPosSizes["motherboard"].second);
+    } else if (currentStep == 2){
+
+        animatePart(ui->cpuLabel, previousPosSizes["cpu"].first, previousPosSizes["cpu"].second);
+    } else if (currentStep == 3) {
+        animatePart(ui->gpuLabel, previousPosSizes["gpu"].first, previousPosSizes["gpu"].second);
+    }
+    else if(currentStep == 4){
+
+    }
+    else if (currentStep == 5){
         ui->nextButton->setEnabled(true);
     }
+
+    currentStep--;
 
     // Return to previous step based off of current step
 }

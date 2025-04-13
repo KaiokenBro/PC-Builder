@@ -24,6 +24,7 @@ private:
     bool stepByStepToggled;
     int currentStep;
     QMap<QString, QPair<QPoint, QSize>> originalPosSizes;
+    QMap<QString, QPair<QPoint, QSize>> previousPosSizes;
     bool isAssembled;
 
 private slots:
