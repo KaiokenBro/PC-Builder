@@ -5,6 +5,11 @@
 
 #include <QMainWindow>
 
+#include <QGraphicsScene>
+#include <QGraphicsPixmapItem>
+#include <QTimer>
+#include <Box2D/Box2D.h>
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -22,9 +27,22 @@ private:
     Ui::MainWindow* ui;
     LearningWindow* learningWindow;
 
+
+    // Box2D scenes and icon
+    QGraphicsScene *scene;
+    QGraphicsPixmapItem *pcIconItem;
+
+    // Box2D physics variables
+    b2World *world;
+    b2Body *pcIconBody;
+
+    // Timer for the animation
+    QTimer animationTimer;
+
 private slots:
 
     void onStartButtonClicked();
+    void frameAnimation();
 
 signals:
 
