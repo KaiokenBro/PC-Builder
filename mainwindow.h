@@ -4,7 +4,6 @@
 #include "learningwindow.h"
 
 #include <QMainWindow>
-
 #include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
 #include <QTimer>
@@ -27,14 +26,13 @@ private:
     Ui::MainWindow* ui;
     LearningWindow* learningWindow;
 
-
     // Box2D scenes and icon
     QGraphicsScene *scene;
     QGraphicsPixmapItem *pcIconItem;
 
     // Box2D physics variables
-    b2World *world;
-    b2Body *pcIconBody;
+    b2World* world;
+    b2Body* pcIconBody;
 
     // Timer for the animation
     QTimer animationTimer;
@@ -43,10 +41,6 @@ private slots:
 
     void onStartButtonClicked();
     void frameAnimation();
-
-signals:
-
-
 
 };
 

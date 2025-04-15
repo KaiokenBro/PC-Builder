@@ -1,7 +1,7 @@
 #include "infobox.h"
 
-InfoBox::InfoBox(const QString& title, const QString& text, QWidget* parent)
-    : QDialog(parent)
+InfoBox::InfoBox(const QString& title, const QString& text, QWidget* parent) :
+    QDialog(parent)
 {
     setWindowTitle(title);
     setFixedSize(400, 250);
@@ -29,11 +29,12 @@ InfoBox::InfoBox(const QString& title, const QString& text, QWidget* parent)
     connect(closeButton,
             &QPushButton::clicked,
             this,
-            &InfoBox::handleCloseClicked);
+            &InfoBox::handleCloseClicked
+    );
+
 }
 
-// Closes the dialog box.
+// SLOT
 void InfoBox::handleCloseClicked() {
     accept();
 }
-

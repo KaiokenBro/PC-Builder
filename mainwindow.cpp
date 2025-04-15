@@ -4,7 +4,6 @@
 
 // To convert meters to pixels you have to divide by 50.0f for positions.
 
-
 // CONSTRUCTOR
 MainWindow::MainWindow(LearningWindow* learningWindow, QWidget* parent) :
     QMainWindow(parent),
@@ -30,9 +29,10 @@ MainWindow::MainWindow(LearningWindow* learningWindow, QWidget* parent) :
     // Define the ground body, used for floor creation
     {
         b2BodyDef groundDef;
+
         // Define the floor for the object to fall to.
         groundDef.position.Set(400.0f / 50.0f, 370.0f / 50.0f);
-        b2Body *groundBody = world->CreateBody(&groundDef);
+        b2Body* groundBody = world->CreateBody(&groundDef);
 
         // Define the ground box shape.
         b2PolygonShape groundBox;
@@ -64,8 +64,7 @@ MainWindow::MainWindow(LearningWindow* learningWindow, QWidget* parent) :
         pcIconBody = world->CreateBody(&bodyDef);
 
         b2PolygonShape boxShape;
-        boxShape.SetAsBox((r.width() / 2) / 50.0f,
-                          (r.height() / 2) / 50.0f);
+        boxShape.SetAsBox( (r.width() / 2) / 50.0f, (r.height() / 2) / 50.0f );
 
         // Define the dynamic body fixture.
         b2FixtureDef fixtureDef;
@@ -85,16 +84,18 @@ MainWindow::MainWindow(LearningWindow* learningWindow, QWidget* parent) :
     // Start the animtion timer
     connect(&animationTimer,
             &QTimer::timeout,
-            this, &MainWindow::frameAnimation
-            );
-    animationTimer.start(16);
+            this,
+            &MainWindow::frameAnimation
+    );
 
     // When startButton clicked, open learningWindow
     connect(ui->startButton,
             &QPushButton::clicked,
             this,
             &MainWindow::onStartButtonClicked
-            );
+    );
+
+    animationTimer.start(16);
 
 }
 
@@ -111,8 +112,8 @@ void MainWindow::onStartButtonClicked() {
 }
 
 // SLOT
-void MainWindow::frameAnimation()
-{
+void MainWindow::frameAnimation() {
+
     // Prepare for simulation. Typically we use a time step of 1/60 of a
     // second (60Hz) and 10 iterations. This provides a high quality simulation
     // in most game scenarios.

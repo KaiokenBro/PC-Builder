@@ -21,25 +21,27 @@ public:
 
 private:
 
-    Ui::TestWindow *ui;
+    Ui::TestWindow* ui;
     QSize lastSize;
     QString lastName;
-    int step;
     QList<QString> dontMove;
-
-private slots:
-    void mousePressEvent(QMouseEvent *event);
-    void dropEvent(QDropEvent *event);
-    void dragMoveEvent(QDragMoveEvent *event);
-    void dragEnterEvent(QDragEnterEvent *event);
-    QPoint snapLocation(QPoint cursor);
-
-signals:
-    void checkAnswer(int step, QString part, QPoint location);
+    int step;
 
 public slots:
+
     void receiveAnswer(bool correctness, QString reason, QString part);
 
+private slots:
+
+    QPoint snapLocation(QPoint cursor);
+    void mousePressEvent(QMouseEvent* event);
+    void dropEvent(QDropEvent* event);
+    void dragMoveEvent(QDragMoveEvent* event);
+    void dragEnterEvent(QDragEnterEvent* event);
+
+signals:
+
+    void checkAnswer(int step, QString part, QPoint location);
 
 };
 

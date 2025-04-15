@@ -75,23 +75,28 @@ LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
     connect(ui->assembleButton,
             &QPushButton::clicked,
             this,
-            &LearningWindow::assemblePC);
+            &LearningWindow::assemblePC
+    );
 
     // Enable/Disable Step by Step button
     connect(ui->stepByStepButton,
             &QPushButton::clicked,
             this,
-            &LearningWindow::toggleStepByStep);
+            &LearningWindow::toggleStepByStep
+    );
 
     connect(ui->nextButton,
             &QPushButton::clicked,
             this,
-            &LearningWindow::nextStep);
+            &LearningWindow::nextStep
+    );
 
     connect(ui->previousButton,
             &QPushButton::clicked,
             this,
-            &LearningWindow::previousStep);
+            &LearningWindow::previousStep
+    );
+
 }
 
 // DESTRUCTOR
@@ -105,39 +110,9 @@ void LearningWindow::onTestButtonClicked() {
     testWindow->show();
 }
 
-// METHOD
-bool LearningWindow::eventFilter(QObject* watched, QEvent* event) {
-    if (event->type() == QEvent::MouseButtonPress) {
-        if (watched == ui->gpuLabel) {
-            showInfo("GPU", "This is often called the graphics card, this handles graphics and visual output. "
-                            "It connects to the motherboard via a PCIe slot.");
-            return true;
-        } else if (watched == ui->cpuLabel) {
-            showInfo("CPU", "The ""brain"" of the computer, this handles all the instructions, "
-                            "this plugs into the motherboard’s CPU socket.");
-            return true;
-        } else if (watched == ui->ramLabel) {
-            showInfo("RAM", "This is the RAM, this acts as temporary memory for active data and programs. "
-                            "This is installed into the motherboard’s RAM slots.");
-            return true;
-        } else if (watched == ui->memoryLabel) {
-            showInfo("Memory", "This is the memory of the computer, fast storage device for files and the operating system."
-                               " It plugs into the motherboard’s M.2 slot.");
-            return true;
-        } else if (watched == ui->caseLabel) {
-            showInfo("Case", "This is the case that puts all the pieces together");
-            return true;
-        } else if (watched == ui->motherboardLabel) {
-            showInfo("Motherboard", "The main circuit board that connects all components, this houses slots and ports for the CPU, RAM, GPU, and storage.");
-            return true;
-        }
-
-    }
-    return QMainWindow::eventFilter(watched, event);
-}
-
 // SLOT
 void LearningWindow::showInfo(const QString& title, const QString& text) {
+
     // Create info box with the clicked parts information and open box.
     InfoBox* dialog = new InfoBox(title, text, this);
     dialog->exec();
@@ -148,6 +123,7 @@ void LearningWindow::showInfo(const QString& title, const QString& text) {
 
 // SLOT
 void LearningWindow::assemblePC() {
+
     if (!isAssembled) {
         // Set the position and size for the parts.
         animatePart(ui->gpuLabel, QPoint(175, 250), QSize(300, 300));
@@ -158,6 +134,7 @@ void LearningWindow::assemblePC() {
         animatePart(ui->caseLabel, QPoint(0, 0), QSize(800, 500));
         isAssembled = true;
     }
+
     else {
         // Revert the position and size for the parts.
         animatePart(ui->gpuLabel, originalPosSizes["gpu"].first, originalPosSizes["gpu"].second);
@@ -168,13 +145,16 @@ void LearningWindow::assemblePC() {
         animatePart(ui->caseLabel, originalPosSizes["case"].first, originalPosSizes["case"].second);
         isAssembled = false;
     }
+
     // Move the buttons to the front so the parts do not overlap.
     ui->assembleButton->raise();
     ui->testButton->raise();
 }
 
+// SLOT
 void LearningWindow::toggleStepByStep() {
-    if(stepByStepToggled) {
+
+    if (stepByStepToggled) {
         //Return PC parts to their original positions
         ui->nextButton->setEnabled(false);
         ui->previousButton->setEnabled(false);
@@ -188,7 +168,9 @@ void LearningWindow::toggleStepByStep() {
         animatePart(ui->memoryLabel, originalPosSizes["memory"].first, originalPosSizes["memory"].second);
         animatePart(ui->motherboardLabel, originalPosSizes["motherboard"].first, originalPosSizes["motherboard"].second);
         animatePart(ui->caseLabel, originalPosSizes["case"].first, originalPosSizes["case"].second);
-    } else {
+    }
+
+    else {
         ui->nextButton->setEnabled(true);
         ui->assembleButton->setEnabled(false);
         currentStep = 0;
@@ -204,9 +186,11 @@ void LearningWindow::toggleStepByStep() {
     }
 }
 
+// SLOT
 void LearningWindow::nextStep() {
+
     // Enable previousButton if first step
-    if(currentStep == 0) {
+    if (currentStep == 0) {
         ui->previousButton->setEnabled(true);
 
         // Save the previous motherboard position
@@ -215,15 +199,18 @@ void LearningWindow::nextStep() {
         // Put the Motherboard into place
         animatePart(ui->motherboardLabel, QPoint(200, 150), QSize(275, 275));
 
+        // Maybe display text saying "First, install the motherboard in the PC case"?
+    }
 
-        //Maybe display text saying "First, install the motherboard in the PC case"?
-    } else if (currentStep == 1){
+    else if (currentStep == 1){
 
         // Save the previous CPU position
         previousPosSizes["cpu"] = qMakePair( ui->cpuLabel->pos(), ui->cpuLabel->size());
 
         animatePart(ui->cpuLabel, QPoint(300, 195), QSize(80, 80));
-    } else if (currentStep == 2) {
+    }
+
+    else if (currentStep == 2) {
 
         // Save the previous GPU position
         previousPosSizes["gpu"] = qMakePair( ui->gpuLabel->pos(), ui->gpuLabel->size());
@@ -236,27 +223,33 @@ void LearningWindow::nextStep() {
 
     // Animate based off of currentStep
 
-    if(currentStep == 5){
+    if (currentStep == 5) {
         ui->nextButton->setEnabled(false);
     }
 }
 
+// SLOT
 void LearningWindow::previousStep() {
 
-
-    if(currentStep == 1) {
+    if (currentStep == 1) {
         ui->previousButton->setEnabled(false);
         animatePart(ui->motherboardLabel, previousPosSizes["motherboard"].first, previousPosSizes["motherboard"].second);
-    } else if (currentStep == 2){
+    }
+
+    else if (currentStep == 2) {
 
         animatePart(ui->cpuLabel, previousPosSizes["cpu"].first, previousPosSizes["cpu"].second);
-    } else if (currentStep == 3) {
+    }
+
+    else if (currentStep == 3) {
         animatePart(ui->gpuLabel, previousPosSizes["gpu"].first, previousPosSizes["gpu"].second);
     }
-    else if(currentStep == 4){
 
+    else if(currentStep == 4) {
+    // ????????
     }
-    else if (currentStep == 5){
+
+    else if (currentStep == 5) {
         ui->nextButton->setEnabled(true);
     }
 
@@ -265,7 +258,9 @@ void LearningWindow::previousStep() {
     // Return to previous step based off of current step
 }
 
+// METHOD
 void LearningWindow::animatePart(QWidget* part, const QPoint& endPos, const QSize& endSize) {
+
     // Set up postioning animation.
     QPropertyAnimation* posAnim = new QPropertyAnimation(part, "pos");
     posAnim->setDuration(3000);
@@ -280,4 +275,47 @@ void LearningWindow::animatePart(QWidget* part, const QPoint& endPos, const QSiz
     // Start the animations.
     posAnim->start(QAbstractAnimation::DeleteWhenStopped);
     sizeAnim->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+// METHOD
+bool LearningWindow::eventFilter(QObject* watched, QEvent* event) {
+
+    if (event->type() == QEvent::MouseButtonPress) {
+
+        if (watched == ui->gpuLabel) {
+            showInfo("GPU", "This is often called the graphics card, this handles graphics and visual output. "
+                            "It connects to the motherboard via a PCIe slot.");
+            return true;
+        }
+
+        else if (watched == ui->cpuLabel) {
+            showInfo("CPU", "The ""brain"" of the computer, this handles all the instructions, "
+                            "this plugs into the motherboard’s CPU socket.");
+            return true;
+        }
+
+        else if (watched == ui->ramLabel) {
+            showInfo("RAM", "This is the RAM, this acts as temporary memory for active data and programs. "
+                            "This is installed into the motherboard’s RAM slots.");
+            return true;
+        }
+
+        else if (watched == ui->memoryLabel) {
+            showInfo("Memory", "This is the memory of the computer, fast storage device for files and the operating system."
+                               " It plugs into the motherboard’s M.2 slot.");
+            return true;
+        }
+
+        else if (watched == ui->caseLabel) {
+            showInfo("Case", "This is the case that puts all the pieces together");
+            return true;
+        }
+
+        else if (watched == ui->motherboardLabel) {
+            showInfo("Motherboard", "The main circuit board that connects all components, this houses slots and ports for the CPU, RAM, GPU, and storage.");
+            return true;
+        }
+    }
+
+    return QMainWindow::eventFilter(watched, event);
 }

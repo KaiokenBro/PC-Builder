@@ -4,17 +4,20 @@
 #include <QObject>
 #include <QPoint>
 
-class TestChecker : public QObject
-{
+class TestChecker : public QObject {
     Q_OBJECT
+
 public:
+
     TestChecker();
 
-signals:
-    void sendAnswer(bool correctness, QString reason, QString part);
-
 public slots:
+
     void checkPlacement(int step, QString part, QPoint location);
+
+signals:
+
+    void sendAnswer(bool correctness, QString reason, QString part);
 
 };
 

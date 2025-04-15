@@ -8,16 +8,21 @@
 
 class InfoBox : public QDialog {
     Q_OBJECT
+
 public:
+
     explicit InfoBox(const QString& title, const QString& text, QWidget* parent = nullptr);
 
-public slots:
-    void handleCloseClicked();
-
 private:
+
     QLabel* titleLabel;
     QLabel* contentLabel;
     QPushButton* closeButton;
+
+public slots:
+
+    void handleCloseClicked();
+
 };
 
 #endif // INFOBOX_H
