@@ -8,4 +8,7 @@
         <file>ram.png</file>
         <file>PC Builder Pic.png</file>
     </qresource>
+    <qresource prefix="/gif">
+        <file>matrix.gif</file>
+    </qresource>
 </RCC>
