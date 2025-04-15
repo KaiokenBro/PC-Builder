@@ -128,8 +128,8 @@ void LearningWindow::assemblePC() {
         // Set the position and size for the parts.
         animatePart(ui->gpuLabel, QPoint(175, 250), QSize(300, 300));
         animatePart(ui->cpuLabel, QPoint(290, 125), QSize(80, 80));
-        animatePart(ui->ramLabel, QPoint(160, 220), QSize(100, 50));
-        animatePart(ui->memoryLabel, QPoint(50, 100), QSize(100, 50));
+        animatePart(ui->ramLabel, QPoint(397, 100), QSize(15, 130));
+        animatePart(ui->memoryLabel, QPoint(335, 300), QSize(20, 50));
         animatePart(ui->motherboardLabel, QPoint(175, 75), QSize(300, 300));
         animatePart(ui->caseLabel, QPoint(0, 0), QSize(800, 500));
         isAssembled = true;
