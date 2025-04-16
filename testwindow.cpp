@@ -47,11 +47,15 @@ TestWindow::TestWindow(QWidget* parent) :
     ui->memoryLabel->setScaledContents(true);
     ui->memoryLabel->setToolTip("Solid State Drive (SSD)");
 
-    // Ram Image
+    // Ram Images
     QPixmap ramPixmap(":/images/ram.png");
-    ui->ramLabel->setPixmap(ramPixmap);
-    ui->ramLabel->setScaledContents(true);
-    ui->ramLabel->setToolTip("Random Access Memory (RAM)");
+    ui->ramLabel1->setPixmap(ramPixmap);
+    ui->ramLabel1->setScaledContents(true);
+    ui->ramLabel1->setToolTip("Random Access Memory (RAM)");
+
+    ui->ramLabel2->setPixmap(ramPixmap);
+    ui->ramLabel2->setScaledContents(true);
+    ui->ramLabel2->setToolTip("Random Access Memory (RAM)");
 
     TestChecker* testChecker = new TestChecker();
 
@@ -201,14 +205,19 @@ QPoint TestWindow::snapLocation(QPoint cursor) {
         return QPoint(315, 295);
     }
 
-    // RAM location
-    else if (200 <= cursor.x() && cursor.x() <= 300 && 390 <= cursor.y() && cursor.y() <= 440){
-        return QPoint(200,390);
+    // RAM 1 location
+    else if (420 <= cursor.x() && cursor.x() <= 440 && 280 <= cursor.y() && cursor.y() <= 410){
+        return QPoint(423, 270);
+    }
+
+    // RAM 2 location
+    else if (440 <= cursor.x() && cursor.x() <= 460 && 280 <= cursor.y() && cursor.y() <= 410){
+        return QPoint(443, 270);
     }
 
     // Memory location
-    else if (65 <= cursor.x() && cursor.x() <= 165 && 290 <= cursor.y() && cursor.y() <= 340){
-        return QPoint(65, 290);
+    else if (260 <= cursor.x() && cursor.x() <= 350 && 470 <= cursor.y() && cursor.y() <= 520){
+        return QPoint(260, 470);
     }
 
     // GPU Location
@@ -231,7 +240,7 @@ QPoint TestWindow::snapLocation(QPoint cursor) {
 // SLOT
 void TestWindow::receiveAnswer(bool correctness, QString reason, QString part) {
 
-    if (step == 5 && correctness) {
+    if (step == 6 && correctness) {
         dontMove.append(part);
 
         // Create info box letting you know you made the computer correctly.

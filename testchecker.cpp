@@ -14,75 +14,89 @@ void TestChecker::checkPlacement(int step, QString part, QPoint location) {
 
         switch(step){
 
-            case 1:
+        case 1:
 
-                if (part != "motherboardLabel"){
-                    correctness = false;
-                    reason = "Not the right part";
-                }
+            if (part != "motherboardLabel"){
+                correctness = false;
+                reason = "Not the right part";
+            }
 
-                else if (location != QPoint(200, 245)){
-                    correctness = false;
-                    reason = "Not the right location!";
-                }
+            else if (location != QPoint(200, 245)){
+                correctness = false;
+                reason = "Not the right location!";
+            }
 
-                break;
+            break;
 
-            case 2:
+        case 2:
 
-                if (part != "cpuLabel"){
-                    correctness = false;
-                    reason = "Not the right part";
-                }
+            if (part != "cpuLabel"){
+                correctness = false;
+                reason = "Not the right part";
+            }
 
-                else if (location != QPoint(315, 295)){
-                    correctness = false;
-                    reason = "Not the right location!";
-                }
+            else if (location != QPoint(315, 295)){
+                correctness = false;
+                reason = "Not the right location!";
+            }
 
-                break;
+            break;
 
-            case 3:
+        case 3:
 
-                if (part != "gpuLabel"){
-                    correctness = false;
-                    reason = "Not the right part";
-                }
+            if (part != "gpuLabel"){
+                correctness = false;
+                reason = "Not the right part";
+            }
 
-                else if (location != QPoint(180, 440)){
-                    correctness = false;
-                    reason = "Not the right location!";
-                }
+            else if (location != QPoint(180, 440)){
+                correctness = false;
+                reason = "Not the right location!";
+            }
 
-                break;
+            break;
 
-            case 4:
+        case 4:
 
-                if (part != "ramLabel"){
-                    correctness = false;
-                    reason = "Not the right part";
-                }
+            if (part != "ramLabel1" && part != "ramLabel2"){
+                correctness = false;
+                reason = "Not the right part";
+            }
 
-                else if (location != QPoint(200, 390)){
-                    correctness = false;
-                    reason = "Not the right location!";
-                }
+            else if (location != QPoint(423, 270) && location != QPoint(443, 270)){
+                correctness = false;
+                reason = "Not the right location!";
+            }
 
-                break;
+            break;
 
-            case 5:
+        case 5:
 
-                if (part != "memoryLabel"){
-                    correctness = false;
-                    reason = "Not the right part";
-                }
+            if (part != "ramLabel1" && part != "ramLabel2"){
+                correctness = false;
+                reason = "Not the right part";
+            }
 
-                else if (location != QPoint(65, 290)){
-                    correctness = false;
-                    reason = "Not the right location!";
-                }
+            else if (location != QPoint(423, 270) && location != QPoint(443, 270)){
+                correctness = false;
+                reason = "Not the right location!";
+            }
 
-                break;
+            break;
+
+        case 6:
+
+            if (part != "memoryLabel"){
+                correctness = false;
+                reason = "Not the right part";
+            }
+
+            else if (location != QPoint(260, 470)){
+                correctness = false;
+                reason = "Not the right location!";
+            }
+
+            break;
         }
 
         emit sendAnswer(correctness, reason, part);
