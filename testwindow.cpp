@@ -200,41 +200,52 @@ void TestWindow::mousePressEvent(QMouseEvent* event) {
 // SLOT
 QPoint TestWindow::snapLocation(QPoint cursor) {
 
-    // CPU location
-    if (315 <= cursor.x() && cursor.x() <= 395 && 295 <= cursor.y() && cursor.y() <= 375){
-        return QPoint(315, 295);
+    QPoint newDrop = QPoint(cursor.x() - .5*lastSize.width(), cursor.y() - .5*lastSize.height());
+    switch(step){
+        case 1:
+            // Motherboard location
+            if (150 <= cursor.x() && cursor.x() <= 450 && 290 <= cursor.y() && cursor.y() <= 590){
+                newDrop = QPoint(200, 245);
+            }
+            break;
+
+        case 2:
+            // CPU location
+            if (315 <= cursor.x() && cursor.x() <= 395 && 295 <= cursor.y() && cursor.y() <= 375 && step == 2){
+                newDrop = QPoint(315, 295);
+            }
+            break;
+
+        case 3:
+            // GPU Location
+            if (200 <= cursor.x() && cursor.x() <= 430 && 560 <= cursor.y() && cursor.y() <= 630){
+                newDrop = QPoint(180, 440);
+            }
+            break;
+
+        case 4:
+        case 5:
+            // RAM 1 location
+            if (420 <= cursor.x() && cursor.x() <= 440 && 280 <= cursor.y() && cursor.y() <= 410){
+                return QPoint(423, 270);
+            }
+
+            // RAM 2 location
+            else if (440 <= cursor.x() && cursor.x() <= 460 && 280 <= cursor.y() && cursor.y() <= 410){
+                return QPoint(443, 270);
+            }
+            break;
+
+        case 6:
+            // Memory location
+            if (260 <= cursor.x() && cursor.x() <= 350 && 470 <= cursor.y() && cursor.y() <= 520){
+                return QPoint(260, 470);
+            }
+            break;
     }
 
-    // RAM 1 location
-    else if (420 <= cursor.x() && cursor.x() <= 440 && 280 <= cursor.y() && cursor.y() <= 410){
-        return QPoint(423, 270);
-    }
+    return newDrop;
 
-    // RAM 2 location
-    else if (440 <= cursor.x() && cursor.x() <= 460 && 280 <= cursor.y() && cursor.y() <= 410){
-        return QPoint(443, 270);
-    }
-
-    // Memory location
-    else if (260 <= cursor.x() && cursor.x() <= 350 && 470 <= cursor.y() && cursor.y() <= 520){
-        return QPoint(260, 470);
-    }
-
-    // GPU Location
-    else if (200 <= cursor.x() && cursor.x() <= 430 && 560 <= cursor.y() && cursor.y() <= 630){
-        return QPoint(180, 440);
-    }
-
-    // Motherboard location
-    else if (150 <= cursor.x() && cursor.x() <= 450 && 290 <= cursor.y() && cursor.y() <= 590){
-        return QPoint(200, 245);
-    }
-
-    // No where to snap to drop where it is
-    else {
-        QPoint newDrop = QPoint(cursor.x() - .5*lastSize.width(), cursor.y() - .5*lastSize.height());
-        return newDrop;
-    }
 }
 
 // SLOT
