@@ -1,12 +1,12 @@
 <RCC>
     <qresource prefix="/images">
-        <file>motherboard.png</file>
         <file>case.png</file>
         <file>gpu.png</file>
         <file>cpu.png</file>
         <file>memory.png</file>
         <file>ram.png</file>
         <file>PC Builder Pic.png</file>
+        <file>motherboard.png</file>
     </qresource>
     <qresource prefix="/gif">
         <file>matrix.gif</file>

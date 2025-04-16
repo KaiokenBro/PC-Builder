@@ -34,7 +34,7 @@ LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
     ui->caseLabel->setScaledContents(true);
     ui->caseLabel->setToolTip("Computer Case");
 
-    // Motherboard Image
+    // // Motherboard Image
     QPixmap motherboardPixmap(":/images/motherboard.png");
     ui->motherboardLabel->setPixmap(motherboardPixmap);
     ui->motherboardLabel->setScaledContents(true);
