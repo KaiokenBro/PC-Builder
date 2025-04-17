@@ -29,6 +29,9 @@
       <bold>true</bold>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:16pt; font-weight:700;&quot;&gt;Welcome to the PC Builder!&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
@@ -44,6 +47,9 @@
       <width>781</width>
       <height>231</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;The PC Builder App is an interactive learning tool that guides users through assembling a computer step-by-step. First, users are shown a complete example of a PC build, featuring core components like the &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;motherboard&lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;, &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;CPU&lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;, &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;GPU&lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;, &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;M.2 SSD&lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;, and &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;RAM sticks&lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;. This example highlights where each part goes and how they connect.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;After the example, users enter &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;Test Mode&lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;, where they must assemble the PC themselves by selecting and placing each component in the correct order. The app provides instant feedback, saying &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;&amp;quot;Correct&amp;quot;&lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt; if a part is placed properly, or &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;&amp;quot;Wrong&amp;quot;&lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt; if it's out of order or incorrectly installed.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:11pt; font-weight:700;&quot;&gt;&lt;br/&gt;&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -85,7 +91,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
