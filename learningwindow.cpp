@@ -182,14 +182,14 @@ void LearningWindow::toggleStepByStep() {
         animatePart(ui->cpuLabel, QPoint(300, 10), QSize(121, 121));
         animatePart(ui->gpuLabel, QPoint(630, 10), QSize(161, 151));
         animatePart(ui->memoryLabel, QPoint(650, 220), QSize(141, 81));
-        animatePart(ui->ramLabel, QPoint(640, 440), QSize(151, 41));
+        animatePart(ui->ramLabel, QPoint(700, 300), QSize(15, 130));
     }
 }
 
 // SLOT
 void LearningWindow::nextStep() {
 
-    // Enable previousButton if first step
+    // Move Motherboard into place, Enable previousButton if first step
     if (currentStep == 0) {
         ui->previousButton->setEnabled(true);
 
@@ -197,26 +197,41 @@ void LearningWindow::nextStep() {
         previousPosSizes["motherboard"] = qMakePair( ui->motherboardLabel->pos(), ui->motherboardLabel->size());
 
         // Put the Motherboard into place
-        animatePart(ui->motherboardLabel, QPoint(200, 150), QSize(275, 275));
+        animatePart(ui->motherboardLabel, QPoint(215, 150), QSize(245, 245));
 
         // Maybe display text saying "First, install the motherboard in the PC case"?
     }
-
+    // Move CPU into place
     else if (currentStep == 1){
 
         // Save the previous CPU position
         previousPosSizes["cpu"] = qMakePair( ui->cpuLabel->pos(), ui->cpuLabel->size());
 
-        animatePart(ui->cpuLabel, QPoint(300, 195), QSize(80, 80));
+        animatePart(ui->cpuLabel, QPoint(305, 190), QSize(75, 75));
     }
-
+    // Move GPU into place
     else if (currentStep == 2) {
 
         // Save the previous GPU position
         previousPosSizes["gpu"] = qMakePair( ui->gpuLabel->pos(), ui->gpuLabel->size());
 
 
-        animatePart(ui->gpuLabel, QPoint(175, 250), QSize(225, 225));
+        animatePart(ui->gpuLabel, QPoint(190, 285), QSize(280, 280));
+    }
+    // Move RAM into place
+    else if (currentStep == 3) {
+
+        // Save the previous RAM position
+        previousPosSizes["ram"] = qMakePair( ui->ramLabel->pos(), ui->ramLabel->size());
+
+        animatePart(ui->ramLabel, QPoint(395, 170), QSize(15, 105));
+    }
+    // Move Memory into place
+    else if (currentStep == 4) {
+
+        originalPosSizes["memory"] = qMakePair( ui->memoryLabel->pos(), ui->memoryLabel->size());
+
+        animatePart(ui->memoryLabel, QPoint(250, 335), QSize(95, 45));
     }
 
     currentStep++;
@@ -247,9 +262,11 @@ void LearningWindow::previousStep() {
 
     else if(currentStep == 4) {
     // ????????
+        animatePart(ui->ramLabel, previousPosSizes["ram"].first, previousPosSizes["ram"].second);
     }
 
     else if (currentStep == 5) {
+        animatePart(ui->memoryLabel, originalPosSizes["memory"].first, originalPosSizes["memory"].second);
         ui->nextButton->setEnabled(true);
     }
 
