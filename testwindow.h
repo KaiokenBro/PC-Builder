@@ -24,12 +24,13 @@ private:
     Ui::TestWindow* ui;
     QSize lastSize;
     QString lastName;
+    QPoint location;
     QList<QString> dontMove;
-    int step;
+    bool reset;
 
 public slots:
 
-    void receiveAnswer(bool correctness, QString reason, QString part);
+    void receiveAnswer(bool correctness, QString reason, QString part, QPoint location);
 
 private slots:
 
@@ -41,7 +42,8 @@ private slots:
 
 signals:
 
-    void checkAnswer(int step, QString part, QPoint location);
+    void checkAnswer(QString part, QPoint location);
+    int getCurrentStep();
 
 };
 

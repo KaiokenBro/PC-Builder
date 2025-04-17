@@ -7,17 +7,20 @@
 class TestChecker : public QObject {
     Q_OBJECT
 
+private:
+    int step;
 public:
 
     TestChecker();
 
 public slots:
 
-    void checkPlacement(int step, QString part, QPoint location);
+    void checkPlacement(QString part, QPoint location);
+    int sendCurrentStep();
 
 signals:
 
-    void sendAnswer(bool correctness, QString reason, QString part);
+    void sendAnswer(bool correctness, QString reason, QString part, QPoint location);
 
 };
 

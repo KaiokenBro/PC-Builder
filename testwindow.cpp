@@ -11,8 +11,9 @@ TestWindow::TestWindow(QWidget* parent) :
     ui(new Ui::TestWindow),
     lastSize(QSize(0,0)),
     lastName("none"),
+    location(QPoint(0,0)),
     dontMove({"caseLabel", "centralwidget"}),
-    step(1)
+    reset(false)
 {
     ui->setupUi(this);
     setMouseTracking(true);
@@ -63,6 +64,12 @@ TestWindow::TestWindow(QWidget* parent) :
             &TestWindow::checkAnswer,
             testChecker,
             &TestChecker::checkPlacement
+            );
+
+    connect(this,
+            &TestWindow::getCurrentStep,
+            testChecker,
+            &TestChecker::sendCurrentStep
             );
 
     connect(testChecker,
@@ -151,7 +158,11 @@ void TestWindow::dropEvent(QDropEvent* event) {
             event->acceptProposedAction();
         }
 
-        emit checkAnswer(step, lastName, newLocal);
+        emit checkAnswer(lastName, newLocal);
+        if(reset){
+            newIcon->move(location);
+            reset = false;
+        }
     }
 
     else {
@@ -169,6 +180,7 @@ void TestWindow::mousePressEvent(QMouseEvent* event) {
 
     lastSize = child->size();
     lastName = child->objectName();
+    location = child->pos();
     QPixmap pixmap = child->pixmap();
 
     QByteArray itemData;
@@ -199,49 +211,49 @@ void TestWindow::mousePressEvent(QMouseEvent* event) {
 
 // SLOT
 QPoint TestWindow::snapLocation(QPoint cursor) {
-
+    int step = emit getCurrentStep();
     QPoint newDrop = QPoint(cursor.x() - .5*lastSize.width(), cursor.y() - .5*lastSize.height());
     switch(step){
-        case 1:
-            // Motherboard location
-            if (150 <= cursor.x() && cursor.x() <= 450 && 290 <= cursor.y() && cursor.y() <= 590){
-                newDrop = QPoint(200, 245);
-            }
-            break;
+    case 1:
+        // Motherboard location
+        if (150 <= cursor.x() && cursor.x() <= 450 && 290 <= cursor.y() && cursor.y() <= 590){
+            newDrop = QPoint(200, 245);
+        }
+        break;
 
-        case 2:
-            // CPU location
-            if (315 <= cursor.x() && cursor.x() <= 395 && 295 <= cursor.y() && cursor.y() <= 375 && step == 2){
-                newDrop = QPoint(315, 295);
-            }
-            break;
+    case 2:
+        // CPU location
+        if (315 <= cursor.x() && cursor.x() <= 395 && 295 <= cursor.y() && cursor.y() <= 375 && step == 2){
+            newDrop = QPoint(315, 295);
+        }
+        break;
 
-        case 3:
-            // GPU Location
-            if (200 <= cursor.x() && cursor.x() <= 430 && 560 <= cursor.y() && cursor.y() <= 630){
-                newDrop = QPoint(180, 440);
-            }
-            break;
+    case 3:
+        // GPU Location
+        if (200 <= cursor.x() && cursor.x() <= 430 && 560 <= cursor.y() && cursor.y() <= 630){
+            newDrop = QPoint(180, 440);
+        }
+        break;
 
-        case 4:
-        case 5:
-            // RAM 1 location
-            if (420 <= cursor.x() && cursor.x() <= 440 && 280 <= cursor.y() && cursor.y() <= 410){
-                return QPoint(423, 270);
-            }
+    case 4:
+    case 5:
+        // RAM 1 location
+        if (420 <= cursor.x() && cursor.x() <= 440 && 280 <= cursor.y() && cursor.y() <= 410){
+            return QPoint(423, 270);
+        }
 
-            // RAM 2 location
-            else if (440 <= cursor.x() && cursor.x() <= 460 && 280 <= cursor.y() && cursor.y() <= 410){
-                return QPoint(443, 270);
-            }
-            break;
+        // RAM 2 location
+        else if (440 <= cursor.x() && cursor.x() <= 460 && 280 <= cursor.y() && cursor.y() <= 410){
+            return QPoint(443, 270);
+        }
+        break;
 
-        case 6:
-            // Memory location
-            if (260 <= cursor.x() && cursor.x() <= 350 && 470 <= cursor.y() && cursor.y() <= 520){
-                return QPoint(260, 470);
-            }
-            break;
+    case 6:
+        // Memory location
+        if (260 <= cursor.x() && cursor.x() <= 350 && 470 <= cursor.y() && cursor.y() <= 520){
+            return QPoint(260, 470);
+        }
+        break;
     }
 
     return newDrop;
@@ -249,9 +261,10 @@ QPoint TestWindow::snapLocation(QPoint cursor) {
 }
 
 // SLOT
-void TestWindow::receiveAnswer(bool correctness, QString reason, QString part) {
-
+void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, QPoint newLocation) {
+    int step = emit getCurrentStep() - 1;
     if (step == 6 && correctness) {
+        location = newLocation;
         dontMove.append(part);
 
         // Create info box letting you know you made the computer correctly.
@@ -263,6 +276,7 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part) {
     }
 
     else if (correctness) {
+        location = newLocation;
         dontMove.append(part);
         step++;
 
@@ -275,7 +289,7 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part) {
     }
 
     else {
-
+        reset = true;
         // Create info box with the reason why you were incorrect.
         InfoBox* dialog = new InfoBox("Incorrect", reason, this);
         dialog->exec();

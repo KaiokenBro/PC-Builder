@@ -1,8 +1,8 @@
 #include "testchecker.h"
 
-TestChecker::TestChecker() {}
+TestChecker::TestChecker() {step = 1;}
 
-void TestChecker::checkPlacement(int step, QString part, QPoint location) {
+void TestChecker::checkPlacement(QString part, QPoint location) {
     QString reason = "Correct";
     bool correctness = true;
 
@@ -98,7 +98,13 @@ void TestChecker::checkPlacement(int step, QString part, QPoint location) {
 
             break;
         }
-
-        emit sendAnswer(correctness, reason, part);
+        if(correctness){
+            step++;
+        }
+        emit sendAnswer(correctness, reason, part, location);
     }
+}
+
+int TestChecker::sendCurrentStep(){
+    return step;
 }
