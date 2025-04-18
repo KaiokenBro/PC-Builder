@@ -11,4 +11,9 @@
     <qresource prefix="/gif">
         <file>matrix.gif</file>
     </qresource>
+    <qresource prefix="/sounds">
+        <file>Win-Sound.wav</file>
+        <file>Bad-Sound.wav</file>
+        <file>Good-Sound.wav</file>
+    </qresource>
 </RCC>

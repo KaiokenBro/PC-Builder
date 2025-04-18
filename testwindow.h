@@ -8,6 +8,8 @@
 #include <QDragMoveEvent>
 #include <QDrag>
 #include <QPoint>
+#include <QMediaPlayer>
+#include <QAudioOutput>
 
 namespace Ui { class TestWindow; }
 
@@ -27,6 +29,36 @@ private:
     QPoint location;
     QList<QString> dontMove;
     bool reset;
+
+    /**
+     * @brief Media player for the Good! sound effect.
+     */
+    QMediaPlayer* goodAudio;
+
+    /**
+     * @brief Media player for the Bad! sound effect.
+     */
+    QMediaPlayer* badAudio;
+
+    /**
+     * @brief Media player for the Win! sound effect.
+     */
+    QMediaPlayer* winAudio;
+
+    /**
+     * @brief Audio output for the Win! sound effect.
+     */
+    QAudioOutput* winAudioOutput;
+
+    /**
+     * @brief Audio output for the Good! sound effect.
+     */
+    QAudioOutput* goodAudioOutput;
+
+    /**
+     * @brief Audio output for the Bad! sound effect.
+     */
+    QAudioOutput* badAudioOutput;
 
 public slots:
 

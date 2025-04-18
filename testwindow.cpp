@@ -18,6 +18,29 @@ TestWindow::TestWindow(QWidget* parent) :
     ui->setupUi(this);
     setMouseTracking(true);
 
+    // Initialize audio players
+    goodAudio = new QMediaPlayer(this);
+    badAudio = new QMediaPlayer(this);
+    goodAudioOutput = new QAudioOutput(this);
+    badAudioOutput = new QAudioOutput(this);
+    winAudio = new QMediaPlayer(this);
+    winAudioOutput = new QAudioOutput(this);
+
+    // Set audio output for each sound effect
+    goodAudio->setAudioOutput(goodAudioOutput);
+    badAudio->setAudioOutput(badAudioOutput);
+    winAudio->setAudioOutput(winAudioOutput);
+
+    // Set the volume of the audio (range is 0 to 100)
+    goodAudioOutput->setVolume(50);
+    badAudioOutput->setVolume(50);
+    winAudioOutput->setVolume(40);
+
+    // Load button sounds from qrc file
+    goodAudio->setSource(QUrl("qrc:/sounds/Good-Sound.wav"));
+    badAudio->setSource(QUrl("qrc:/sounds/Bad-Sound.wav"));
+    winAudio->setSource(QUrl("qrc:/sounds/Win-Sound.wav"));
+
     // PC Case Image
     QPixmap casePixmap(":/images/case.png");
     ui->caseLabel->setPixmap(casePixmap);
@@ -267,6 +290,9 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
         location = newLocation;
         dontMove.append(part);
 
+        // Play the Win! sound
+        winAudio->play();
+
         // Create info box letting you know you made the computer correctly.
         InfoBox* dialog = new InfoBox("Great Job!!", "Enjoy the new PC", this);
         dialog->exec();
@@ -280,6 +306,9 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
         dontMove.append(part);
         step++;
 
+        // Play the good! sound
+        goodAudio->play();
+
         // Create info box letting you know you were right.
         InfoBox* dialog = new InfoBox("Correct", "Keep Going!", this);
         dialog->exec();
@@ -290,6 +319,10 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
 
     else {
         reset = true;
+
+        // Play the bad! sound
+        badAudio->play();
+
         // Create info box with the reason why you were incorrect.
         InfoBox* dialog = new InfoBox("Incorrect", reason, this);
         dialog->exec();
