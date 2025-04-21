@@ -104,19 +104,19 @@ TestWindow::TestWindow(LearningWindow* learningWindow, QWidget* parent) :
             &TestWindow::checkAnswer,
             testChecker,
             &TestChecker::checkPlacement
-    );
+            );
 
     connect(this,
             &TestWindow::getCurrentStep,
             testChecker,
             &TestChecker::sendCurrentStep
-    );
+            );
 
     connect(testChecker,
             &TestChecker::sendAnswer,
             this,
             &TestWindow::receiveAnswer
-    );
+            );
 
     connect(ui->backButton,
             &QPushButton::clicked,
@@ -293,11 +293,10 @@ QPoint TestWindow::snapLocation(QPoint cursor) {
             newDrop = QPoint(200, 370);
         }
 
-        // RAM location
+        // RAM locations
         else if (420 <= cursor.x() && cursor.x() <= 440 && 280 <= cursor.y() && cursor.y() <= 410){
             return QPoint(423, 270);
         }
-
         else if (440 <= cursor.x() && cursor.x() <= 460 && 280 <= cursor.y() && cursor.y() <= 410){
             return QPoint(443, 270);
         }
@@ -310,13 +309,16 @@ QPoint TestWindow::snapLocation(QPoint cursor) {
 
 void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, QPoint newLocation) {
     int step = emit getCurrentStep() - 1;
-
     if (step == 6 && correctness) {
         location = newLocation;
         dontMove.append(part);
 
         // Play the Win! sound
         winAudio->play();
+
+        // Update the progress
+        double progress = step / 6.0;
+        ui->progressBar->setValue(progress * 100.0);
 
         // Create info box letting you know you made the computer correctly.
         InfoBox* dialog = new InfoBox("Great Job!!", "Enjoy the new PC", this);
@@ -333,6 +335,10 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
 
         // Play the good! sound
         goodAudio->play();
+
+        // Update the progress
+        double progress = (step - 1) / 6.0;
+        ui->progressBar->setValue(progress * 100.0);
 
         // Create info box letting you know you were right.
         InfoBox* dialog = new InfoBox("Correct", reason, this);
