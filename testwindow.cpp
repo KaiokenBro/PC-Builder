@@ -31,6 +31,7 @@ TestWindow::TestWindow(LearningWindow* learningWindow, QWidget* parent) :
     reset(false)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Test Window");
     setMouseTracking(true);
 
     ui->backButton->setIcon(QIcon::fromTheme("go-previous")); // uses system theme arrow
@@ -133,7 +134,10 @@ TestWindow::~TestWindow() {
 // SLOT
 void TestWindow::onBackButtonClicked(){
     this->hide();
-    learningWindow->show();
+    TestWindow *newTestWindow = new TestWindow(nullptr);
+    LearningWindow *newLearningWindow = new LearningWindow(newTestWindow);
+    newTestWindow->setLearningWindow(newLearningWindow);
+    newLearningWindow->show();
 }
 
 void TestWindow::dragEnterEvent(QDragEnterEvent* event) {
@@ -221,7 +225,6 @@ void TestWindow::dropEvent(QDropEvent* event) {
 
 void TestWindow::mousePressEvent(QMouseEvent* event) {
     QLabel* child = static_cast<QLabel*>(childAt(event->pos()));
-
     if (!child || dontMove.contains(child->objectName())){
         return;
     }
