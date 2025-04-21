@@ -1,3 +1,16 @@
+/**
+ * @file infobox.cpp
+ *
+ * @brief Implementation of the InfoBox class.
+ *
+ * This class defines the behavior of a simple modal popup dialog
+ * that displays a title, informational message, and a close button.
+ * It is used throughout the application to communicate important
+ * feedback or guidance to the user during the learning and testing process.
+ *
+ * @date 04/22/2025
+ */
+
 #include "infobox.h"
 
 InfoBox::InfoBox(const QString& title, const QString& text, QWidget* parent) :
@@ -26,7 +39,6 @@ InfoBox::InfoBox(const QString& title, const QString& text, QWidget* parent) :
     closeButton->setStyleSheet("background-color: #4CAF50; font-size: 16px; border: none; padding: 10px;");
     layout->addWidget(closeButton);
 
-    // When the closeButton is clicked, close the dialog box.
     connect(closeButton,
             &QPushButton::clicked,
             this,
@@ -35,7 +47,6 @@ InfoBox::InfoBox(const QString& title, const QString& text, QWidget* parent) :
 
 }
 
-// SLOT
 void InfoBox::handleCloseClicked() {
     accept();
 }

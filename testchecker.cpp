@@ -1,3 +1,16 @@
+/**
+ * @file testchecker.cpp
+ *
+ * @brief Implementation of the TestChecker class.
+ *
+ * This class validates the user's drag-and-drop component placements
+ * during the PC assembly test phase in TestWindow. It checks both the
+ * part type and position against the current step, and emits a signal
+ * containing the results.
+ *
+ * @date 04/22/2025
+ */
+
 #include "testchecker.h"
 
 TestChecker::TestChecker() {step = 1;}
@@ -12,16 +25,16 @@ void TestChecker::checkPlacement(QString part, QPoint location) {
 
     else {
 
-        switch(step){
+        switch(step) {
 
         case 1:
 
-            if (part != "motherboardLabel"){
+            if (part != "motherboardLabel") {
                 correctness = false;
                 reason = "Not the right part";
             }
 
-            else if (location != QPoint(200, 245)){
+            else if (location != QPoint(200, 245)) {
                 correctness = false;
                 reason = "Not the right location!";
             }
@@ -30,12 +43,12 @@ void TestChecker::checkPlacement(QString part, QPoint location) {
 
         case 2:
 
-            if (part != "cpuLabel"){
+            if (part != "cpuLabel") {
                 correctness = false;
                 reason = "Not the right part";
             }
 
-            else if (location != QPoint(315, 295)){
+            else if (location != QPoint(315, 295)) {
                 correctness = false;
                 reason = "Not the right location!";
             }
@@ -44,12 +57,12 @@ void TestChecker::checkPlacement(QString part, QPoint location) {
 
         case 3:
 
-            if (part != "gpuLabel"){
+            if (part != "gpuLabel") {
                 correctness = false;
                 reason = "Not the right part";
             }
 
-            else if (location != QPoint(180, 440)){
+            else if (location != QPoint(180, 440)) {
                 correctness = false;
                 reason = "Not the right location!";
             }
@@ -58,12 +71,12 @@ void TestChecker::checkPlacement(QString part, QPoint location) {
 
         case 4:
 
-            if (part != "ramLabel1" && part != "ramLabel2"){
+            if (part != "ramLabel1" && part != "ramLabel2") {
                 correctness = false;
                 reason = "Not the right part";
             }
 
-            else if (location != QPoint(423, 270) && location != QPoint(443, 270)){
+            else if (location != QPoint(423, 270) && location != QPoint(443, 270)) {
                 correctness = false;
                 reason = "Not the right location!";
             }
@@ -72,12 +85,12 @@ void TestChecker::checkPlacement(QString part, QPoint location) {
 
         case 5:
 
-            if (part != "ramLabel1" && part != "ramLabel2"){
+            if (part != "ramLabel1" && part != "ramLabel2") {
                 correctness = false;
                 reason = "Not the right part";
             }
 
-            else if (location != QPoint(423, 270) && location != QPoint(443, 270)){
+            else if (location != QPoint(423, 270) && location != QPoint(443, 270)) {
                 correctness = false;
                 reason = "Not the right location!";
             }
@@ -86,25 +99,27 @@ void TestChecker::checkPlacement(QString part, QPoint location) {
 
         case 6:
 
-            if (part != "memoryLabel"){
+            if (part != "memoryLabel") {
                 correctness = false;
                 reason = "Not the right part";
             }
 
-            else if (location != QPoint(260, 470)){
+            else if (location != QPoint(260, 470)) {
                 correctness = false;
                 reason = "Not the right location!";
             }
 
             break;
         }
-        if(correctness){
+
+        if (correctness) {
             step++;
         }
+
         emit sendAnswer(correctness, reason, part, location);
     }
 }
 
-int TestChecker::sendCurrentStep(){
+int TestChecker::sendCurrentStep() {
     return step;
 }

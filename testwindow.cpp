@@ -1,3 +1,17 @@
+/**
+ * @file testwindow.cpp
+ *
+ * @brief Implementation of the TestWindow class.
+ *
+ * This file defines the interactive test screen where users assemble
+ * a PC by dragging and dropping components to the correct locations.
+ *
+ * The logic helps simulate building a PC while providing real-time
+ * feedback to reinforce learning through interaction.
+ *
+ * @date 04/22/2025
+ */
+
 #include "testwindow.h"
 #include "ui_testwindow.h"
 #include "testchecker.h"
@@ -5,7 +19,6 @@
 
 #include <QDebug>
 
-// CONSTRUCTOR
 TestWindow::TestWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::TestWindow),
@@ -87,28 +100,26 @@ TestWindow::TestWindow(QWidget* parent) :
             &TestWindow::checkAnswer,
             testChecker,
             &TestChecker::checkPlacement
-            );
+    );
 
     connect(this,
             &TestWindow::getCurrentStep,
             testChecker,
             &TestChecker::sendCurrentStep
-            );
+    );
 
     connect(testChecker,
             &TestChecker::sendAnswer,
             this,
             &TestWindow::receiveAnswer
-            );
+    );
 
 }
 
-// DESTRUCTOR
 TestWindow::~TestWindow() {
     delete ui;
 }
 
-// SLOT
 void TestWindow::dragEnterEvent(QDragEnterEvent* event) {
 
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
@@ -129,7 +140,6 @@ void TestWindow::dragEnterEvent(QDragEnterEvent* event) {
     }
 }
 
-// SLOT
 void TestWindow::dragMoveEvent(QDragMoveEvent* event) {
 
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
@@ -150,7 +160,6 @@ void TestWindow::dragMoveEvent(QDragMoveEvent* event) {
     }
 }
 
-// SLOT
 void TestWindow::dropEvent(QDropEvent* event) {
 
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
@@ -182,7 +191,8 @@ void TestWindow::dropEvent(QDropEvent* event) {
         }
 
         emit checkAnswer(lastName, newLocal);
-        if(reset){
+
+        if (reset){
             newIcon->move(location);
             reset = false;
         }
@@ -193,7 +203,6 @@ void TestWindow::dropEvent(QDropEvent* event) {
     }
 }
 
-// SLOT
 void TestWindow::mousePressEvent(QMouseEvent* event) {
     QLabel* child = static_cast<QLabel*>(childAt(event->pos()));
 
@@ -232,60 +241,68 @@ void TestWindow::mousePressEvent(QMouseEvent* event) {
     }
 }
 
-// SLOT
 QPoint TestWindow::snapLocation(QPoint cursor) {
     int step = emit getCurrentStep();
     QPoint newDrop = QPoint(cursor.x() - .5*lastSize.width(), cursor.y() - .5*lastSize.height());
-    switch(step){
+
+    switch(step) {
+
+    // Motherboard location
     case 1:
-        // Motherboard location
+
         if (150 <= cursor.x() && cursor.x() <= 450 && 290 <= cursor.y() && cursor.y() <= 590){
             newDrop = QPoint(200, 245);
         }
+
         break;
 
+    // CPU location
     case 2:
-        // CPU location
+
         if (315 <= cursor.x() && cursor.x() <= 395 && 295 <= cursor.y() && cursor.y() <= 375 && step == 2){
             newDrop = QPoint(315, 295);
         }
+
         break;
 
+    // GPU Location
     case 3:
-        // GPU Location
+
         if (200 <= cursor.x() && cursor.x() <= 430 && 560 <= cursor.y() && cursor.y() <= 630){
-            newDrop = QPoint(180, 440);
+            newDrop = QPoint(200, 440);
         }
+
         break;
 
+    // RAM location
     case 4:
-    case 5:
-        // RAM 1 location
+
         if (420 <= cursor.x() && cursor.x() <= 440 && 280 <= cursor.y() && cursor.y() <= 410){
             return QPoint(423, 270);
         }
 
-        // RAM 2 location
         else if (440 <= cursor.x() && cursor.x() <= 460 && 280 <= cursor.y() && cursor.y() <= 410){
             return QPoint(443, 270);
         }
+
         break;
 
-    case 6:
-        // Memory location
+    // Memory location
+    case 5:
+
         if (260 <= cursor.x() && cursor.x() <= 350 && 470 <= cursor.y() && cursor.y() <= 520){
             return QPoint(260, 470);
         }
+
         break;
     }
 
     return newDrop;
-
 }
 
-// SLOT
 void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, QPoint newLocation) {
     int step = emit getCurrentStep() - 1;
+
     if (step == 6 && correctness) {
         location = newLocation;
         dontMove.append(part);

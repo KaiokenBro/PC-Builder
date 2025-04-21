@@ -1,8 +1,24 @@
+/**
+ * @file learningwindow.cpp
+ *
+ * @brief Implementation of the LearningWindow class.
+ *
+ * This file contains the implementation of the LearningWindow class,
+ * which provides an educational UI for learning about PC components.
+ * It includes interactive animations for assembling PC parts,
+ * toggling between full and step-by-step assembly modes, and
+ * displaying information popups about each component.
+ *
+ * The window also supports transitioning into a TestWindow,
+ * where users can practice assembling a PC based on what they learned.
+ *
+ * @date 04/22/2025
+ */
+
 #include "learningwindow.h"
 #include "ui_learningwindow.h"
 #include "infobox.h"
 
-// CONSTRUCTOR
 LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::LearningWindow),
@@ -64,21 +80,18 @@ LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
     ui->ramLabel->setScaledContents(true);
     ui->ramLabel->setToolTip("Random Access Memory (RAM)");
 
-    // When testButton clicked, open testWindow
     connect(ui->testButton,
             &QPushButton::clicked,
             this,
             &LearningWindow::onTestButtonClicked
     );
 
-    // When assembleButton clicked assemble PC parts.
     connect(ui->assembleButton,
             &QPushButton::clicked,
             this,
             &LearningWindow::assemblePC
     );
 
-    // Enable/Disable Step by Step button
     connect(ui->stepByStepButton,
             &QPushButton::clicked,
             this,
@@ -99,44 +112,37 @@ LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
 
 }
 
-// DESTRUCTOR
 LearningWindow::~LearningWindow() {
     delete ui;
 }
 
-// SLOT
 void LearningWindow::onTestButtonClicked() {
     this->hide();
     testWindow->show();
 }
 
-// SLOT
 void LearningWindow::showInfo(const QString& title, const QString& text) {
-
-    // Create info box with the clicked parts information and open box.
     InfoBox* dialog = new InfoBox(title, text, this);
     dialog->exec();
-
-    // Close when done.
     delete dialog;
 }
 
 // SLOT
 void LearningWindow::assemblePC() {
 
+    // Set the position and size for the parts.
     if (!isAssembled) {
-        // Set the position and size for the parts.
-        animatePart(ui->gpuLabel, QPoint(175, 250), QSize(300, 300));
+        animatePart(ui->gpuLabel, QPoint(175, 200), QSize(200, 220));
         animatePart(ui->cpuLabel, QPoint(290, 125), QSize(80, 80));
         animatePart(ui->ramLabel, QPoint(397, 100), QSize(15, 130));
-        animatePart(ui->memoryLabel, QPoint(230, 300), QSize(105, 50));
+        animatePart(ui->memoryLabel, QPoint(230, 200), QSize(105, 50));
         animatePart(ui->motherboardLabel, QPoint(175, 75), QSize(300, 300));
         animatePart(ui->caseLabel, QPoint(0, 0), QSize(800, 500));
         isAssembled = true;
     }
 
+    // Revert the position and size for the parts.
     else {
-        // Revert the position and size for the parts.
         animatePart(ui->gpuLabel, originalPosSizes["gpu"].first, originalPosSizes["gpu"].second);
         animatePart(ui->cpuLabel, originalPosSizes["cpu"].first, originalPosSizes["cpu"].second);
         animatePart(ui->ramLabel, originalPosSizes["ram"].first, originalPosSizes["ram"].second);
@@ -155,13 +161,14 @@ void LearningWindow::assemblePC() {
 void LearningWindow::toggleStepByStep() {
 
     if (stepByStepToggled) {
-        //Return PC parts to their original positions
+
+        // Return PC parts to their original positions
         ui->nextButton->setEnabled(false);
         ui->previousButton->setEnabled(false);
         ui->assembleButton->setEnabled(true);
         stepByStepToggled = false;
 
-        //Revert the position and size for all of the parts.
+        // Revert the position and size for all of the parts.
         animatePart(ui->gpuLabel, originalPosSizes["gpu"].first, originalPosSizes["gpu"].second);
         animatePart(ui->cpuLabel, originalPosSizes["cpu"].first, originalPosSizes["cpu"].second);
         animatePart(ui->ramLabel, originalPosSizes["ram"].first, originalPosSizes["ram"].second);
@@ -171,6 +178,7 @@ void LearningWindow::toggleStepByStep() {
     }
 
     else {
+
         ui->nextButton->setEnabled(true);
         ui->assembleButton->setEnabled(false);
         currentStep = 0;
@@ -186,64 +194,46 @@ void LearningWindow::toggleStepByStep() {
     }
 }
 
-// SLOT
 void LearningWindow::nextStep() {
 
     // Move Motherboard into place, Enable previousButton if first step
     if (currentStep == 0) {
         ui->previousButton->setEnabled(true);
-
-        // Save the previous motherboard position
         previousPosSizes["motherboard"] = qMakePair( ui->motherboardLabel->pos(), ui->motherboardLabel->size());
-
-        // Put the Motherboard into place
         animatePart(ui->motherboardLabel, QPoint(215, 150), QSize(245, 245));
-
-        // Maybe display text saying "First, install the motherboard in the PC case"?
     }
+
     // Move CPU into place
-    else if (currentStep == 1){
-
-        // Save the previous CPU position
+    else if (currentStep == 1) {
         previousPosSizes["cpu"] = qMakePair( ui->cpuLabel->pos(), ui->cpuLabel->size());
-
         animatePart(ui->cpuLabel, QPoint(305, 190), QSize(75, 75));
     }
+
     // Move GPU into place
     else if (currentStep == 2) {
-
-        // Save the previous GPU position
         previousPosSizes["gpu"] = qMakePair( ui->gpuLabel->pos(), ui->gpuLabel->size());
-
-
         animatePart(ui->gpuLabel, QPoint(190, 285), QSize(280, 280));
     }
+
     // Move RAM into place
     else if (currentStep == 3) {
-
-        // Save the previous RAM position
         previousPosSizes["ram"] = qMakePair( ui->ramLabel->pos(), ui->ramLabel->size());
-
         animatePart(ui->ramLabel, QPoint(395, 170), QSize(15, 105));
     }
+
     // Move Memory into place
     else if (currentStep == 4) {
-
         originalPosSizes["memory"] = qMakePair( ui->memoryLabel->pos(), ui->memoryLabel->size());
-
         animatePart(ui->memoryLabel, QPoint(250, 335), QSize(95, 45));
     }
 
     currentStep++;
-
-    // Animate based off of currentStep
 
     if (currentStep == 5) {
         ui->nextButton->setEnabled(false);
     }
 }
 
-// SLOT
 void LearningWindow::previousStep() {
 
     if (currentStep == 1) {
@@ -252,7 +242,6 @@ void LearningWindow::previousStep() {
     }
 
     else if (currentStep == 2) {
-
         animatePart(ui->cpuLabel, previousPosSizes["cpu"].first, previousPosSizes["cpu"].second);
     }
 
@@ -261,7 +250,6 @@ void LearningWindow::previousStep() {
     }
 
     else if(currentStep == 4) {
-    // ????????
         animatePart(ui->ramLabel, previousPosSizes["ram"].first, previousPosSizes["ram"].second);
     }
 
@@ -271,11 +259,8 @@ void LearningWindow::previousStep() {
     }
 
     currentStep--;
-
-    // Return to previous step based off of current step
 }
 
-// METHOD
 void LearningWindow::animatePart(QWidget* part, const QPoint& endPos, const QSize& endSize) {
 
     // Set up postioning animation.
@@ -294,7 +279,6 @@ void LearningWindow::animatePart(QWidget* part, const QPoint& endPos, const QSiz
     sizeAnim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
-// METHOD
 bool LearningWindow::eventFilter(QObject* watched, QEvent* event) {
 
     if (event->type() == QEvent::MouseButtonPress) {

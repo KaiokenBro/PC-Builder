@@ -1,10 +1,27 @@
+/**
+ * @file mainwindow.cpp
+ *
+ * @brief Implementation of the MainWindow class.
+ *
+ * This file defines the behavior of the application's welcome screen.
+ * It initializes a Box2D physics simulation to animate the falling PC icon,
+ * creating a dynamic and engaging entry screen for the user.
+ *
+ * Key features include:
+ * - Physics-based animation using Box2D and QGraphicsView
+ * - A Start button that transitions the user into the LearningWindow
+ * - Timer-based updates to sync physics simulation with the visual scene
+ *
+ * The physics world uses gravity, collision detection, and restitution
+ * to simulate the bouncing behavior of the PC icon as it lands on a floor.
+ *
+ * @date 04/22/2025
+ */
+
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "learningwindow.h"
 
-// To convert meters to pixels you have to divide by 50.0f for positions.
-
-// CONSTRUCTOR
 MainWindow::MainWindow(LearningWindow* learningWindow, QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -81,14 +98,12 @@ MainWindow::MainWindow(LearningWindow* learningWindow, QWidget* parent) :
         pcIconBody->CreateFixture(&fixtureDef);
     }
 
-    // Start the animtion timer
     connect(&animationTimer,
             &QTimer::timeout,
             this,
             &MainWindow::frameAnimation
     );
 
-    // When startButton clicked, open learningWindow
     connect(ui->startButton,
             &QPushButton::clicked,
             this,
@@ -99,19 +114,16 @@ MainWindow::MainWindow(LearningWindow* learningWindow, QWidget* parent) :
 
 }
 
-// DESTRUCTOR
 MainWindow::~MainWindow() {
     delete world;
     delete ui;
 }
 
-// SLOT
 void MainWindow::onStartButtonClicked() {
     this->hide();
     learningWindow->show();
 }
 
-// SLOT
 void MainWindow::frameAnimation() {
 
     // Prepare for simulation. Typically we use a time step of 1/60 of a
