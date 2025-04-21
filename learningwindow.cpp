@@ -300,36 +300,39 @@ bool LearningWindow::eventFilter(QObject* watched, QEvent* event) {
     if (event->type() == QEvent::MouseButtonPress) {
 
         if (watched == ui->gpuLabel) {
-            showInfo("GPU", "This is often called the graphics card, this handles graphics and visual output. "
-                            "It connects to the motherboard via a PCIe slot.");
+            showInfo("Graphics Processing Unit", "The GPU is responsible for displaying images, video, and animations on your screen. "
+                        "\n\nIt handles complex visual calculations and connects to the motherboard using PCIe slots.");
             return true;
         }
 
         else if (watched == ui->cpuLabel) {
-            showInfo("CPU", "The ""brain"" of the computer, this handles all the instructions, "
-                            "this plugs into the motherboard’s CPU socket.");
+            showInfo("Central Processing Unit", "The CPU is the \"brain\" of the computer. It processes all the instructions and calculations needed to run programs. "
+                        "\n\nThis connects to the motherboard’s CPU socket.");
             return true;
         }
 
         else if (watched == ui->ramLabel) {
-            showInfo("RAM", "This is the RAM, this acts as temporary memory for active data and programs. "
-                            "This is installed into the motherboard’s RAM slots.");
+            showInfo("Random Access Memory", "RAM temporarily stores data that the CPU uses while the computer is on. "
+                        "\n\nIt allows programs to run smoothly and is installed into the motherboard’s RAM slots.");
             return true;
         }
 
         else if (watched == ui->memoryLabel) {
-            showInfo("Memory", "This is the memory of the computer, fast storage device for files and the operating system."
-                               " It plugs into the motherboard’s M.2 slot.");
+            showInfo("M.2 Solid State Drive", "This is a high-speed memory storage device that holds your files, programs, and operating system. "
+                        "\n\nIt plugs directly into the motherboard’s M.2 slot for faster performance.");
             return true;
         }
 
         else if (watched == ui->caseLabel) {
-            showInfo("Case", "This is the case that puts all the pieces together");
+            showInfo("Computer Case", "The case is the protective enclosure that houses all components of the PC. "
+                        "\n\nIt provides structure, airflow, and protection for the internal hardware.");
             return true;
         }
 
         else if (watched == ui->motherboardLabel) {
-            showInfo("Motherboard", "The main circuit board that connects all components, this houses slots and ports for the CPU, RAM, GPU, and storage.");
+            showInfo("Motherboard", "The motherboard is the main circuit board that connects all the computer's components. "
+                        "\n\nIt provides slots and sockets for the CPU, RAM, GPU, storage, and more, allowing them to communicate.");
+
             return true;
         }
     }

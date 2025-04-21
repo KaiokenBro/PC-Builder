@@ -18,6 +18,7 @@ InfoBox::InfoBox(const QString& title, const QString& text, QWidget* parent) :
     contentLabel = new QLabel(text, this);
     contentLabel->setWordWrap(true);
     contentLabel->setStyleSheet("font-size: 16px;");
+    contentLabel->setAlignment(Qt::AlignHCenter | Qt::AlignTop);
     layout->addWidget(contentLabel);
 
     // Create the close botton.
