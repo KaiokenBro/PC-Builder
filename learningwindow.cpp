@@ -212,7 +212,7 @@ void LearningWindow::nextStep() {
     // Move GPU into place
     else if (currentStep == 2) {
         previousPosSizes["gpu"] = qMakePair( ui->gpuLabel->pos(), ui->gpuLabel->size());
-        animatePart(ui->gpuLabel, QPoint(190, 285), QSize(280, 280));
+        animatePart(ui->gpuLabel, QPoint(220, 265), QSize(160, 160));
     }
 
     // Move RAM into place
@@ -224,7 +224,7 @@ void LearningWindow::nextStep() {
     // Move Memory into place
     else if (currentStep == 4) {
         originalPosSizes["memory"] = qMakePair( ui->memoryLabel->pos(), ui->memoryLabel->size());
-        animatePart(ui->memoryLabel, QPoint(250, 335), QSize(95, 45));
+        animatePart(ui->memoryLabel, QPoint(260, 255), QSize(80, 40));
     }
 
     currentStep++;
