@@ -29,6 +29,17 @@ MainWindow::MainWindow(LearningWindow* learningWindow, QWidget* parent) :
     ui->setupUi(this);
     this->learningWindow = learningWindow;
 
+    // Set up QLabel to display the background.
+    QLabel* backgroundLabel = new QLabel(this);
+    backgroundLabel->setGeometry(0, 0, this->width(), 200);
+    backgroundLabel->setScaledContents(true);
+
+    // Load and set the background image
+    QPixmap backgroundImage(":/images/main-background.jpg");
+    backgroundLabel->setPixmap(backgroundImage);
+    backgroundLabel->lower();
+    backgroundLabel->show();
+
     // Create a QGraphicsScene for our animation
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);

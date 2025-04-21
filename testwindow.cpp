@@ -13,15 +13,17 @@
  */
 
 #include "testwindow.h"
+#include "learningwindow.h"
 #include "ui_testwindow.h"
 #include "testchecker.h"
 #include "infobox.h"
 
 #include <QDebug>
 
-TestWindow::TestWindow(QWidget* parent) :
+TestWindow::TestWindow(LearningWindow* learningWindow, QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::TestWindow),
+    learningWindow(learningWindow),
     lastSize(QSize(0,0)),
     lastName("none"),
     location(QPoint(0,0)),
@@ -30,6 +32,8 @@ TestWindow::TestWindow(QWidget* parent) :
 {
     ui->setupUi(this);
     setMouseTracking(true);
+
+    ui->backButton->setIcon(QIcon::fromTheme("go-previous")); // uses system theme arrow
 
     // Initialize audio players
     goodAudio = new QMediaPlayer(this);
@@ -114,10 +118,22 @@ TestWindow::TestWindow(QWidget* parent) :
             &TestWindow::receiveAnswer
     );
 
+    connect(ui->backButton,
+            &QPushButton::clicked,
+            this,
+            &TestWindow::onBackButtonClicked
+            );
+
 }
 
 TestWindow::~TestWindow() {
     delete ui;
+}
+
+// SLOT
+void TestWindow::onBackButtonClicked(){
+    this->hide();
+    learningWindow->show();
 }
 
 void TestWindow::dragEnterEvent(QDragEnterEvent* event) {
@@ -347,4 +363,8 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
         // Close when done.
         delete dialog;
     }
+}
+
+void TestWindow::setLearningWindow(LearningWindow* learningWindow){
+    this->learningWindow = learningWindow;
 }

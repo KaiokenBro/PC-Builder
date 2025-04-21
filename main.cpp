@@ -50,8 +50,9 @@
  */
 int main(int argc, char* argv[]) {
     QApplication a(argc, argv);
-    TestWindow testWindow;
+    TestWindow testWindow(nullptr);
     LearningWindow learningWindow(&testWindow);
+    testWindow.setLearningWindow(&learningWindow);
     MainWindow mainWindow(&learningWindow);
     mainWindow.show();
     return a.exec();

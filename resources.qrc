@@ -7,6 +7,7 @@
         <file>ram.png</file>
         <file>PC Builder Pic.png</file>
         <file>motherboard.png</file>
+        <file>main-background.jpg</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>Win-Sound.wav</file>
