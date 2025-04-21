@@ -12,9 +12,6 @@ MainWindow::MainWindow(LearningWindow* learningWindow, QWidget* parent) :
     ui->setupUi(this);
     this->learningWindow = learningWindow;
 
-    // Calls method to set up the background image.
-    showBackground();
-
     // Create a QGraphicsScene for our animation
     scene = new QGraphicsScene(this);
     ui->graphicsView->setScene(scene);
@@ -137,19 +134,4 @@ void MainWindow::frameAnimation() {
     float yPix = (position.y * 50.0f) - r.height()/2;
     pcIconItem->setPos(xPix, yPix);
     pcIconItem->setRotation(angle * 180.0f / b2_pi);
-}
-
-// METHOD
-void MainWindow::showBackground(){
-    // Create a QLabel to display the background.
-    QLabel* backgroundLabel = new QLabel(this);
-    backgroundLabel->setGeometry(0, 0, this->width(), this->height());
-
-    // Create a QMovie object and load the GIF.
-    QMovie* movie = new QMovie(":/gif/matrix.gif");
-    backgroundLabel->setMovie(movie);
-
-    // Show background and send to back of the label.
-    movie->start();
-    backgroundLabel->lower();
 }

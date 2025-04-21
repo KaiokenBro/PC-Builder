@@ -8,7 +8,6 @@
 #include <QGraphicsPixmapItem>
 #include <QTimer>
 #include <Box2D/Box2D.h>
-#include <QMovie>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,9 +20,6 @@ public:
 
     MainWindow(LearningWindow* learningWindow, QWidget* parent = nullptr);
     ~MainWindow();
-
-    // Creates the background and QMovie GIF
-    void showBackground();
 
 private:
 

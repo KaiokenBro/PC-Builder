@@ -8,9 +8,6 @@
         <file>PC Builder Pic.png</file>
         <file>motherboard.png</file>
     </qresource>
-    <qresource prefix="/gif">
-        <file>matrix.gif</file>
-    </qresource>
     <qresource prefix="/sounds">
         <file>Win-Sound.wav</file>
         <file>Bad-Sound.wav</file>
