@@ -263,51 +263,43 @@ QPoint TestWindow::snapLocation(QPoint cursor) {
 
     switch(step) {
 
-    // Motherboard location
-    case 1:
 
+    case 1:
+        // Motherboard location
         if (150 <= cursor.x() && cursor.x() <= 450 && 290 <= cursor.y() && cursor.y() <= 590){
             newDrop = QPoint(200, 245);
         }
 
         break;
 
-    // CPU location
-    case 2:
 
-        if (315 <= cursor.x() && cursor.x() <= 395 && 295 <= cursor.y() && cursor.y() <= 375 && step == 2){
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+        // CPU location
+        if (315 <= cursor.x() && cursor.x() <= 395 && 295 <= cursor.y() && cursor.y() <= 375){
             newDrop = QPoint(315, 295);
         }
 
-        break;
-
-    // GPU Location
-    case 3:
-
-        if (200 <= cursor.x() && cursor.x() <= 430 && 560 <= cursor.y() && cursor.y() <= 630){
-            newDrop = QPoint(200, 440);
+        // Memory location
+        else if (260 <= cursor.x() && cursor.x() <= 350 && 370 <= cursor.y() && cursor.y() <= 420){
+            return QPoint(260, 370);
         }
 
-        break;
+        // GPU Location
+        else if (300 <= cursor.x() && cursor.x() <= 350 && 430 <= cursor.y() && cursor.y() <= 550){
+            newDrop = QPoint(200, 370);
+        }
 
-    // RAM location
-    case 4:
-
-        if (420 <= cursor.x() && cursor.x() <= 440 && 280 <= cursor.y() && cursor.y() <= 410){
+        // RAM location
+        else if (420 <= cursor.x() && cursor.x() <= 440 && 280 <= cursor.y() && cursor.y() <= 410){
             return QPoint(423, 270);
         }
 
         else if (440 <= cursor.x() && cursor.x() <= 460 && 280 <= cursor.y() && cursor.y() <= 410){
             return QPoint(443, 270);
-        }
-
-        break;
-
-    // Memory location
-    case 5:
-
-        if (260 <= cursor.x() && cursor.x() <= 350 && 470 <= cursor.y() && cursor.y() <= 520){
-            return QPoint(260, 470);
         }
 
         break;
@@ -343,7 +335,7 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
         goodAudio->play();
 
         // Create info box letting you know you were right.
-        InfoBox* dialog = new InfoBox("Correct", "Keep Going!", this);
+        InfoBox* dialog = new InfoBox("Correct", reason, this);
         dialog->exec();
 
         // Close when done.

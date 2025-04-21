@@ -31,82 +31,63 @@ void TestChecker::checkPlacement(QString part, QPoint location) {
 
             if (part != "motherboardLabel") {
                 correctness = false;
-                reason = "Not the right part";
+                reason = "Not the right part to install first";
             }
 
             else if (location != QPoint(200, 245)) {
                 correctness = false;
-                reason = "Not the right location!";
+                reason = "Not the right location for the Mother Board!";
             }
 
+            else {
+                reason = "Perfectly in place. The mother board is right where it should be.";
+            }
             break;
 
         case 2:
-
-            if (part != "cpuLabel") {
-                correctness = false;
-                reason = "Not the right part";
-            }
-
-            else if (location != QPoint(315, 295)) {
-                correctness = false;
-                reason = "Not the right location!";
-            }
-
-            break;
-
         case 3:
-
-            if (part != "gpuLabel") {
-                correctness = false;
-                reason = "Not the right part";
-            }
-
-            else if (location != QPoint(180, 440)) {
-                correctness = false;
-                reason = "Not the right location!";
-            }
-
-            break;
-
         case 4:
-
-            if (part != "ramLabel1" && part != "ramLabel2") {
-                correctness = false;
-                reason = "Not the right part";
-            }
-
-            else if (location != QPoint(423, 270) && location != QPoint(443, 270)) {
-                correctness = false;
-                reason = "Not the right location!";
-            }
-
-            break;
-
         case 5:
-
-            if (part != "ramLabel1" && part != "ramLabel2") {
-                correctness = false;
-                reason = "Not the right part";
-            }
-
-            else if (location != QPoint(423, 270) && location != QPoint(443, 270)) {
-                correctness = false;
-                reason = "Not the right location!";
-            }
-
-            break;
-
         case 6:
 
-            if (part != "memoryLabel") {
-                correctness = false;
-                reason = "Not the right part";
+            if (part == "cpuLabel") {
+                if (location != QPoint(315, 295)) {
+                    correctness = false;
+                    reason = "Not the right location for the CPU!";
+                }
+                else {
+                    reason = "Great job, the CPU is right where it should be.";
+                }
             }
 
-            else if (location != QPoint(260, 470)) {
-                correctness = false;
-                reason = "Not the right location!";
+            else if (part == "memoryLabel") {
+                if (location != QPoint(260, 370)) {
+                    correctness = false;
+                    reason = "Not the right location for the memory!";
+                }
+                else {
+                    reason = "Well done, your computer now has memory.";
+                }
+            }
+
+            else if (part == "gpuLabel") {
+                if (location != QPoint(200, 370)) {
+                    correctness = false;
+                    reason = "Not the right location for the GPU!";
+                }
+                else {
+                    reason = "Nice, all your graphics are going to look great now.";
+                }
+            }
+
+            else if (part == "ramLabel1" || part == "ramLabel2") {
+                if (location != QPoint(423, 270) && location != QPoint(443, 270)) {
+                    correctness = false;
+                    reason = "Not the right location for the RAM!";
+                }
+                else{
+                    reason = "Way to go, you installed the RAM stick correctly.";
+                }
             }
 
             break;
