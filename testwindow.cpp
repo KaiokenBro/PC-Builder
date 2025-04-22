@@ -17,8 +17,7 @@
 #include "ui_testwindow.h"
 #include "testchecker.h"
 #include "infobox.h"
-
-#include <QDebug>
+#include "winwindow.h"
 
 TestWindow::TestWindow(LearningWindow* learningWindow, QWidget* parent) :
     QMainWindow(parent),
@@ -138,6 +137,12 @@ TestWindow::TestWindow(LearningWindow* learningWindow, QWidget* parent) :
             &QPushButton::clicked,
             this,
             &TestWindow::onBackButtonClicked
+            );
+
+    connect(this,
+            &TestWindow::completedTesting,
+            this,
+            &TestWindow::openWinWindow
             );
 
 }
@@ -334,6 +339,9 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
         // Play the Win! sound
         winAudio->play();
 
+        // Open the win window.
+        emit completedTesting();
+
         // Update the progress
         double progress = step / 6.0;
         ui->progressBar->setValue(progress * 100.0);
@@ -343,13 +351,6 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
             ui->progressLabel->show();
             ui->progressLabel->setText("Nice Job!");
         }
-
-        // Create info box letting you know you made the computer correctly.
-        InfoBox* dialog = new InfoBox("Great Job!!", "Enjoy the new PC", this);
-        dialog->exec();
-
-        // Close when done.
-        delete dialog;
     }
 
     else if (correctness) {
@@ -403,4 +404,9 @@ void TestWindow::updateProgressLabel() {
     ui->progressLabel->setStyleSheet(
         QString("color: %1; font-size: 60px;").arg(progressLabelColors[progressLabelIndex]));
     progressLabelIndex = (progressLabelIndex + 1) % progressLabelColors.size();
+}
+
+void TestWindow::openWinWindow() {
+    WinWindow* winWindow = new WinWindow(this);
+    winWindow->show();
 }

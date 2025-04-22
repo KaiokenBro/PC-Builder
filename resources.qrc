@@ -8,6 +8,7 @@
         <file>PC Builder Pic.png</file>
         <file>motherboard.png</file>
         <file>main-background.jpg</file>
+        <file>finishedPC.PNG</file>
     </qresource>
     <qresource prefix="/sounds">
         <file>Win-Sound.wav</file>

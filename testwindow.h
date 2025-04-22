@@ -155,6 +155,11 @@ public slots:
      */
     void setLearningWindow(LearningWindow* learningWindow);
 
+    /**
+     * @brief Creates an instance of WinWindow and opens it.
+     */
+    void openWinWindow();
+
 private slots:
 
     /**
@@ -212,6 +217,11 @@ signals:
      * @return int Current step number.
      */
     int getCurrentStep();
+
+    /**
+     * @brief Emitted when the user completes testing.
+     */
+    void completedTesting();
 
 };
 

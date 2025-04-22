@@ -60,7 +60,8 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     testchecker.cpp \
-    testwindow.cpp
+    testwindow.cpp \
+    winwindow.cpp
 
 HEADERS += \
     Box2D/Box2D.h \
@@ -114,12 +115,14 @@ HEADERS += \
     learningwindow.h \
     mainwindow.h \
     testchecker.h \
-    testwindow.h
+    testwindow.h \
+    winwindow.h
 
 FORMS += \
     learningwindow.ui \
     mainwindow.ui \
-    testwindow.ui
+    testwindow.ui \
+    winwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
