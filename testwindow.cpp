@@ -101,6 +101,20 @@ TestWindow::TestWindow(LearningWindow* learningWindow, QWidget* parent) :
 
     TestChecker* testChecker = new TestChecker();
 
+    ui->progressLabel->hide();
+
+    // Set up rainbow colors
+    progressLabelColors = {"red", "orange", "yellow", "green", "blue", "indigo", "violet"};
+    progressLabelIndex = 0;
+
+    progressLabelTimer = new QTimer(this);
+    progressLabelTimer->start(200);
+
+    connect(progressLabelTimer,
+            &QTimer::timeout,
+            this,
+            &TestWindow::updateProgressLabel);
+
     connect(this,
             &TestWindow::checkAnswer,
             testChecker,
@@ -323,6 +337,13 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
         double progress = step / 6.0;
         ui->progressBar->setValue(progress * 100.0);
 
+        // Show the progress text of the prgress is 50%
+        if (ui->progressBar->value() >= 50) {
+            ui->progressLabel->setText("Almost There!");
+        } else {
+            ui->progressLabel->setText("");  // or hide it
+        }
+
         // Create info box letting you know you made the computer correctly.
         InfoBox* dialog = new InfoBox("Great Job!!", "Enjoy the new PC", this);
         dialog->exec();
@@ -342,6 +363,13 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
         // Update the progress
         double progress = (step - 1) / 6.0;
         ui->progressBar->setValue(progress * 100.0);
+
+        if (ui->progressBar->value() >= 50) {
+            ui->progressLabel->show();
+            ui->progressLabel->setText("Almost There!");
+        } else {
+            ui->progressLabel->hide();
+        }
 
         // Create info box letting you know you were right.
         InfoBox* dialog = new InfoBox("Correct", reason, this);
@@ -368,4 +396,10 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
 
 void TestWindow::setLearningWindow(LearningWindow* learningWindow){
     this->learningWindow = learningWindow;
+}
+
+void TestWindow::updateProgressLabel() {
+    ui->progressLabel->setStyleSheet(
+        QString("color: %1; font-size: 36px;").arg(progressLabelColors[progressLabelIndex]));
+    progressLabelIndex = (progressLabelIndex + 1) % progressLabelColors.size();
 }

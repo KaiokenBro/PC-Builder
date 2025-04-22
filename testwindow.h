@@ -24,6 +24,7 @@
 #include <QPoint>
 #include <QMediaPlayer>
 #include <QAudioOutput>
+#include <QTimer>
 
 class LearningWindow;
 
@@ -122,6 +123,21 @@ private:
      */
     QAudioOutput* badAudioOutput;
 
+    /**
+     * @brief Timer for the rainbow color for progress text.
+     */
+    QTimer* progressLabelTimer;
+
+    /**
+     * @brief List of strings for colors of progress label.
+     */
+    QStringList progressLabelColors;
+
+    /**
+     * @brief Acts as the index for movig through colors in the color list.
+     */
+    int progressLabelIndex;
+
 public slots:
 
     /**
@@ -176,6 +192,11 @@ private slots:
      * @brief onBackButtonClicked Handles the back button click to go back to the learning window.
      */
     void onBackButtonClicked();
+
+    /**
+     * @brief Handles the update of colors for the progress label
+     */
+    void updateProgressLabel();
 
 signals:
 

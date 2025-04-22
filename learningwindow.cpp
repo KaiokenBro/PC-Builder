@@ -276,12 +276,12 @@ void LearningWindow::animatePart(QWidget* part, const QPoint& endPos, const QSiz
 
     // Set up postioning animation.
     QPropertyAnimation* posAnim = new QPropertyAnimation(part, "pos");
-    posAnim->setDuration(3000);
+    posAnim->setDuration(1800);
     posAnim->setEndValue(endPos);
 
     // Set up sizing animation.
     QPropertyAnimation* sizeAnim = new QPropertyAnimation(part, "size");
-    sizeAnim->setDuration(3000);
+    sizeAnim->setDuration(1800);
     sizeAnim->setStartValue(part->size());
     sizeAnim->setEndValue(endSize);
 
