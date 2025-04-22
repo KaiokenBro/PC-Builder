@@ -27,6 +27,7 @@ LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
     ui->setupUi(this);
     this->testWindow = testWindow;
     stepByStepToggled = false;
+    ui->stepByStepLabel->setVisible(false);
 
     // Install event handler for mouseclicks on part labels.
     ui->caseLabel->installEventFilter(this);
@@ -167,6 +168,7 @@ void LearningWindow::toggleStepByStep() {
         ui->previousButton->setEnabled(false);
         ui->assembleButton->setEnabled(true);
         stepByStepToggled = false;
+        ui->stepByStepLabel->setVisible(false);
 
         // Revert the position and size for all of the parts.
         animatePart(ui->gpuLabel, originalPosSizes["gpu"].first, originalPosSizes["gpu"].second);
@@ -183,6 +185,8 @@ void LearningWindow::toggleStepByStep() {
         ui->assembleButton->setEnabled(false);
         currentStep = 0;
         stepByStepToggled = true;
+        ui->stepByStepLabel->setText("Click the arrow buttons to go to the next or previous step.");
+        ui->stepByStepLabel->setVisible(true);
 
         //Set up PC components for step by step animation
         animatePart(ui->caseLabel, QPoint(50, 100), QSize(700, 400));
@@ -201,37 +205,39 @@ void LearningWindow::nextStep() {
         ui->previousButton->setEnabled(true);
         previousPosSizes["motherboard"] = qMakePair( ui->motherboardLabel->pos(), ui->motherboardLabel->size());
         animatePart(ui->motherboardLabel, QPoint(215, 150), QSize(245, 245));
+        ui->stepByStepLabel->setText("First, screw the motherboard into the case.");
     }
 
     // Move CPU into place
     else if (currentStep == 1) {
         previousPosSizes["cpu"] = qMakePair( ui->cpuLabel->pos(), ui->cpuLabel->size());
         animatePart(ui->cpuLabel, QPoint(305, 190), QSize(75, 75));
+        ui->stepByStepLabel->setText("Next, gently install the CPU into the motherboard.");
     }
 
     // Move GPU into place
     else if (currentStep == 2) {
         previousPosSizes["gpu"] = qMakePair( ui->gpuLabel->pos(), ui->gpuLabel->size());
         animatePart(ui->gpuLabel, QPoint(220, 265), QSize(160, 160));
+        ui->stepByStepLabel->setText("Then, carefully push the GPU into the GPU slot below the CPU until you hear a click.");
     }
 
     // Move RAM into place
     else if (currentStep == 3) {
         previousPosSizes["ram"] = qMakePair( ui->ramLabel->pos(), ui->ramLabel->size());
         animatePart(ui->ramLabel, QPoint(395, 170), QSize(15, 105));
+        ui->stepByStepLabel->setText("Then, carefully push the RAM into the RAM slots next to the CPU until you hear a click.");
     }
 
     // Move Memory into place
     else if (currentStep == 4) {
         originalPosSizes["memory"] = qMakePair( ui->memoryLabel->pos(), ui->memoryLabel->size());
         animatePart(ui->memoryLabel, QPoint(260, 255), QSize(80, 40));
+        ui->stepByStepLabel->setText("Finally, install the SSD above the GPU slot.");
+        ui->nextButton->setEnabled(false);
     }
 
     currentStep++;
-
-    if (currentStep == 5) {
-        ui->nextButton->setEnabled(false);
-    }
 }
 
 void LearningWindow::previousStep() {
@@ -239,23 +245,28 @@ void LearningWindow::previousStep() {
     if (currentStep == 1) {
         ui->previousButton->setEnabled(false);
         animatePart(ui->motherboardLabel, previousPosSizes["motherboard"].first, previousPosSizes["motherboard"].second);
+        ui->stepByStepLabel->setText("Click the arrow buttons to go to the next or previous step.");
     }
 
     else if (currentStep == 2) {
         animatePart(ui->cpuLabel, previousPosSizes["cpu"].first, previousPosSizes["cpu"].second);
+        ui->stepByStepLabel->setText("First, screw the motherboard into the case.");
     }
 
     else if (currentStep == 3) {
         animatePart(ui->gpuLabel, previousPosSizes["gpu"].first, previousPosSizes["gpu"].second);
+        ui->stepByStepLabel->setText("Next, gently install the CPU into the motherboard.");
     }
 
     else if(currentStep == 4) {
         animatePart(ui->ramLabel, previousPosSizes["ram"].first, previousPosSizes["ram"].second);
+        ui->stepByStepLabel->setText("Then, carefully push the GPU into the GPU slot below the CPU until you hear a click.");
     }
 
     else if (currentStep == 5) {
         animatePart(ui->memoryLabel, originalPosSizes["memory"].first, originalPosSizes["memory"].second);
         ui->nextButton->setEnabled(true);
+        ui->stepByStepLabel->setText("Then, carefully push the RAM into the RAM slots next to the CPU until you hear a click.");
     }
 
     currentStep--;

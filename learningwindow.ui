@@ -208,6 +208,59 @@
      <string>Step-By-Step</string>
     </property>
    </widget>
+   <widget class="QLabel" name="stepByStepLabel">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>300</y>
+      <width>131</width>
+      <height>200</height>
+     </rect>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>200</width>
+      <height>200</height>
+     </size>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(225, 225, 225);
+color: rgb(0, 0, 0);
+border: 3px solid black</string>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Click the arrow buttons to go to the next or previous step&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignmentFlag::AlignLeading|Qt::AlignmentFlag::AlignLeft|Qt::AlignmentFlag::AlignTop</set>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <zorder>stepByStepLabel</zorder>
+   <zorder>assembleButton</zorder>
+   <zorder>testButton</zorder>
+   <zorder>caseLabel</zorder>
+   <zorder>motherboardLabel</zorder>
+   <zorder>gpuLabel</zorder>
+   <zorder>cpuLabel</zorder>
+   <zorder>memoryLabel</zorder>
+   <zorder>ramLabel</zorder>
+   <zorder>nextButton</zorder>
+   <zorder>previousButton</zorder>
+   <zorder>stepByStepButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -215,7 +268,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
