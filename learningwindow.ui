@@ -17,11 +17,16 @@
    <widget class="QPushButton" name="assembleButton">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>10</x>
       <y>530</y>
       <width>80</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="text">
      <string>Assemble</string>
@@ -35,6 +40,11 @@
       <width>80</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="text">
      <string>Test</string>
@@ -142,11 +152,17 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>460</x>
       <y>530</y>
       <width>75</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="text">
      <string>&gt;</string>
@@ -158,11 +174,17 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>10</x>
+      <x>270</x>
       <y>530</y>
       <width>75</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="text">
      <string>&lt;</string>
@@ -171,11 +193,16 @@
    <widget class="QPushButton" name="stepByStepButton">
     <property name="geometry">
      <rect>
-      <x>90</x>
+      <x>350</x>
       <y>530</y>
-      <width>75</width>
+      <width>101</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="text">
      <string>Step-By-Step</string>

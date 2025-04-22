@@ -29,6 +29,9 @@ MainWindow::MainWindow(LearningWindow* learningWindow, QWidget* parent) :
     ui->setupUi(this);
     this->learningWindow = learningWindow;
 
+    ui->informationLabel->setStyleSheet("color: black;");
+    ui->welcomeLabel->setStyleSheet("color: black;");
+
     // Set up QLabel to display the background.
     QLabel* backgroundLabel = new QLabel(this);
     backgroundLabel->setGeometry(0, 0, this->width(), 200);

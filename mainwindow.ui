@@ -17,8 +17,8 @@
    <widget class="QLabel" name="welcomeLabel">
     <property name="geometry">
      <rect>
-      <x>230</x>
-      <y>180</y>
+      <x>240</x>
+      <y>230</y>
       <width>311</width>
       <height>81</height>
      </rect>
@@ -43,9 +43,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>240</y>
+      <y>340</y>
       <width>781</width>
-      <height>231</height>
+      <height>151</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -65,10 +65,15 @@
     <property name="geometry">
      <rect>
       <x>360</x>
-      <y>450</y>
+      <y>520</y>
       <width>80</width>
       <height>31</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <bold>true</bold>
+     </font>
     </property>
     <property name="text">
      <string>Start</string>
@@ -91,7 +96,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>25</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
