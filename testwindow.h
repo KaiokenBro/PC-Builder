@@ -45,6 +45,7 @@ public:
 
     /**
      * @brief Constructor for TestWindow.
+     * @param learningWindow Pointer to the LearningWindow for navigation.
      * @param parent Optional parent widget.
      */
     explicit TestWindow(LearningWindow* learningWindow, QWidget* parent = nullptr);
@@ -61,6 +62,9 @@ private:
      */
     Ui::TestWindow* ui;
 
+    /**
+     * @brief Pointer to the LearningWindow to allow navigation on button press.
+     */
     LearningWindow* learningWindow;
 
     /**
@@ -129,6 +133,10 @@ public slots:
      */
     void receiveAnswer(bool correctness, QString reason, QString part, QPoint location);
 
+    /**
+     * @brief setLearningWindow Sets the parameter for the testWindow object.
+     * @param learningWindow Parameter for the testwindow.
+     */
     void setLearningWindow(LearningWindow* learningWindow);
 
 private slots:
@@ -164,6 +172,9 @@ private slots:
      */
     void dragEnterEvent(QDragEnterEvent* event);
 
+    /**
+     * @brief onBackButtonClicked Handles the back button click to go back to the learning window.
+     */
     void onBackButtonClicked();
 
 signals:
