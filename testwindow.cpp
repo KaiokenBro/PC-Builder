@@ -103,10 +103,11 @@ TestWindow::TestWindow(LearningWindow* learningWindow, QWidget* parent) :
 
     ui->progressLabel->hide();
 
-    // Set up rainbow colors
+    // Set up rainbow colors for progress label
     progressLabelColors = {"red", "orange", "yellow", "green", "blue", "indigo", "violet"};
     progressLabelIndex = 0;
 
+    // Make a timer for the color text
     progressLabelTimer = new QTimer(this);
     progressLabelTimer->start(200);
 
@@ -337,11 +338,10 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
         double progress = step / 6.0;
         ui->progressBar->setValue(progress * 100.0);
 
-        // Show the progress text of the prgress is 50%
-        if (ui->progressBar->value() >= 50) {
-            ui->progressLabel->setText("Almost There!");
-        } else {
-            ui->progressLabel->setText("");  // or hide it
+        // Show "Nice Job!" text at 100%
+        if (ui->progressBar->value() == 100) {
+            ui->progressLabel->show();
+            ui->progressLabel->setText("Nice Job!");
         }
 
         // Create info box letting you know you made the computer correctly.
@@ -364,6 +364,7 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
         double progress = (step - 1) / 6.0;
         ui->progressBar->setValue(progress * 100.0);
 
+        // Show "Almost There!" text at 50%
         if (ui->progressBar->value() >= 50) {
             ui->progressLabel->show();
             ui->progressLabel->setText("Almost There!");
@@ -400,6 +401,6 @@ void TestWindow::setLearningWindow(LearningWindow* learningWindow){
 
 void TestWindow::updateProgressLabel() {
     ui->progressLabel->setStyleSheet(
-        QString("color: %1; font-size: 36px;").arg(progressLabelColors[progressLabelIndex]));
+        QString("color: %1; font-size: 60px;").arg(progressLabelColors[progressLabelIndex]));
     progressLabelIndex = (progressLabelIndex + 1) % progressLabelColors.size();
 }
