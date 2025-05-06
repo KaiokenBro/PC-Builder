@@ -1,13 +1,13 @@
 #include "winwindow.h"
-#include "ui_winwindow.h"
-#include <QTimer>
 #include <QMouseEvent>
+#include <QTimer>
+#include "ui_winwindow.h"
 
-WinWindow::WinWindow(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::WinWindow)
-    , scaleFactor(100)
-    , world(b2Vec2(0.0f, -10.0f))
+WinWindow::WinWindow(QWidget* parent) :
+    QMainWindow(parent),
+    ui(new Ui::WinWindow),
+    scaleFactor(100),
+    world(b2Vec2(0.0f, -10.0f))
 {
     ui->setupUi(this);
     QImage image(":/images/finishedPC.PNG");
@@ -74,15 +74,14 @@ WinWindow::WinWindow(QWidget *parent)
     QTimer* timer = new QTimer(this);
     ui->imageLabel->installEventFilter(this);
 
-    connect(
-        timer,
-        &QTimer::timeout,
-        this,
-        &WinWindow::updateWorld
-        );
+    connect(timer,
+            &QTimer::timeout,
+            this,
+            &WinWindow::updateWorld
+    );
 
     // 60 FPS
-    timer->start(1000/60);
+    timer->start(1000 / 60);
 }
 
 WinWindow::~WinWindow()
@@ -90,7 +89,8 @@ WinWindow::~WinWindow()
     delete ui;
 }
 
-void WinWindow::updateWorld() {
+void WinWindow::updateWorld()
+{
     float32 timeStep = 1.0f / 60.0f;
     int32 velocityIterations = 6;
     int32 positionIterations = 2;
@@ -101,32 +101,31 @@ void WinWindow::updateWorld() {
     translateMove(ui->imageLabel, position.x, position.y);
 }
 
-void WinWindow::translateMove(QLabel *object, float x, float y) {
+void WinWindow::translateMove(QLabel* object, float x, float y)
+{
     float windowHeight = this->height();
     float translatedX = x * scaleFactor;
     float translatedY = windowHeight - (y * 2.0f * scaleFactor);
     object->move(translatedX, translatedY);
 }
 
-bool WinWindow::eventFilter(QObject *watched, QEvent *event)
+bool WinWindow::eventFilter(QObject* watched, QEvent* event)
 {
     if (watched == ui->imageLabel) {
         if (event->type() == QEvent::MouseButtonPress) {
-            QMouseEvent* mouseEvent = (QMouseEvent*)event;
+            QMouseEvent* mouseEvent = (QMouseEvent *) event;
             if (mouseEvent->button() == Qt::LeftButton) {
                 dragging = true;
                 dragOffset = mouseEvent->pos();
                 return true;
             }
-        }
-        else if (event->type() == QEvent::MouseMove && dragging) {
+        } else if (event->type() == QEvent::MouseMove && dragging) {
             body->SetAwake(false);
-            QMouseEvent* mouseEvent = (QMouseEvent*)event;
+            QMouseEvent* mouseEvent = (QMouseEvent *) event;
             QPoint newPosition = ui->imageLabel->pos() + (mouseEvent->pos() - dragOffset);
             updateBox2D(newPosition);
             return true;
-        }
-        else if (event->type() == QEvent::MouseButtonRelease) {
+        } else if (event->type() == QEvent::MouseButtonRelease) {
             dragging = false;
             body->SetAwake(true);
             return true;
@@ -135,7 +134,8 @@ bool WinWindow::eventFilter(QObject *watched, QEvent *event)
     return QMainWindow::eventFilter(watched, event);
 }
 
-void WinWindow::updateBox2D(QPoint newPosition) {
+void WinWindow::updateBox2D(QPoint newPosition)
+{
     float windowHeight = this->height();
     float translatedY = (windowHeight - newPosition.y()) / (2.0f * scaleFactor);
     float translatedX = newPosition.x() / scaleFactor;

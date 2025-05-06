@@ -3,7 +3,6 @@
 
 /**
  * @file infobox.h
- *
  * @brief Header file for the InfoBox class.
  *
  * The InfoBox class provides a simple dialog window that displays
@@ -21,14 +20,14 @@
 
 /**
  * @class InfoBox
- *
  * @brief Displays a modal popup with a title, message, and close button.
  *
  * The InfoBox class is used to display contextual information, feedback,
  * or instructions in a clean and readable format. It appears in both the
  * LearningWindow and TestWindow to support user understanding.
  */
-class InfoBox : public QDialog {
+class InfoBox : public QDialog
+{
     Q_OBJECT
 
 public:

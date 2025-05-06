@@ -11,30 +11,11 @@
  * The program starts by creating and linking the necessary windows
  * and then displays the MainWindow to the user.
  *
- * Team Members:
- * - Victor Valdez Landa
- * - Harrison Doppelt
- * - Charlie Jones
- * - Sam Garcia
- * - Richard Nghiem
- * - Nicholas Cicalese
- *
- * GitHub Usernames:
- * - KaiokenBro
- * - hdoppelt
- * - charlesj24240
- * - ncicalese
- * - SamuelFGarcia4
- * - Urichng
- *
- * Repository:
- * - https://github.com/UofU-CS3505/cs3505-assignment9-ncicalese.git
- *
  * @date 04/22/2025
  */
 
-#include "mainwindow.h"
 #include "learningwindow.h"
+#include "mainwindow.h"
 #include "testwindow.h"
 
 #include <QApplication>
@@ -48,7 +29,8 @@
  * @param argv Array of command-line arguments.
  * @return int Application exit status.
  */
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[])
+{
     QApplication a(argc, argv);
     TestWindow testWindow(nullptr);
     LearningWindow learningWindow(&testWindow);

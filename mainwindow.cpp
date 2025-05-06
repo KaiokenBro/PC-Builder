@@ -19,8 +19,8 @@
  */
 
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include "learningwindow.h"
+#include "ui_mainwindow.h"
 
 MainWindow::MainWindow(LearningWindow* learningWindow, QWidget* parent) :
     QMainWindow(parent),
@@ -95,7 +95,7 @@ MainWindow::MainWindow(LearningWindow* learningWindow, QWidget* parent) :
         pcIconBody = world->CreateBody(&bodyDef);
 
         b2PolygonShape boxShape;
-        boxShape.SetAsBox( (r.width() / 2) / 50.0f, (r.height() / 2) / 50.0f );
+        boxShape.SetAsBox((r.width() / 2) / 50.0f, (r.height() / 2) / 50.0f);
 
         // Define the dynamic body fixture.
         b2FixtureDef fixtureDef;
@@ -125,21 +125,22 @@ MainWindow::MainWindow(LearningWindow* learningWindow, QWidget* parent) :
     );
 
     animationTimer.start(16);
-
 }
 
-MainWindow::~MainWindow() {
+MainWindow::~MainWindow()
+{
     delete world;
     delete ui;
 }
 
-void MainWindow::onStartButtonClicked() {
+void MainWindow::onStartButtonClicked()
+{
     this->hide();
     learningWindow->show();
 }
 
-void MainWindow::frameAnimation() {
-
+void MainWindow::frameAnimation()
+{
     // Prepare for simulation. Typically we use a time step of 1/60 of a
     // second (60Hz) and 10 iterations. This provides a high quality simulation
     // in most game scenarios.
@@ -156,8 +157,8 @@ void MainWindow::frameAnimation() {
     float angle = pcIconBody->GetAngle();
     QRectF r = pcIconItem->boundingRect();
 
-    float xPix = (position.x * 50.0f) - r.width()/2;
-    float yPix = (position.y * 50.0f) - r.height()/2;
+    float xPix = (position.x * 50.0f) - r.width() / 2;
+    float yPix = (position.y * 50.0f) - r.height() / 2;
     pcIconItem->setPos(xPix, yPix);
     pcIconItem->setRotation(angle * 180.0f / b2_pi);
 }

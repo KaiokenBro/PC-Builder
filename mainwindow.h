@@ -15,9 +15,9 @@
 
 #include "learningwindow.h"
 
-#include <QMainWindow>
-#include <QGraphicsScene>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsScene>
+#include <QMainWindow>
 #include <QTimer>
 #include <Box2D/Box2D.h>
 
@@ -32,7 +32,8 @@ QT_END_NAMESPACE
  *        featuring a physics-based animation and a button to enter the
  *        learning portion of the PC Builder experience.
  */
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
 
 public:

@@ -25,7 +25,8 @@
  * a dropped component was placed correctly. It provides feedback to the
  * TestWindow using signals.
  */
-class TestChecker : public QObject {
+class TestChecker : public QObject
+{
     Q_OBJECT
 
 private:

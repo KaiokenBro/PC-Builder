@@ -47,6 +47,7 @@ InfoBox::InfoBox(const QString& title, const QString& text, QWidget* parent) :
 
 }
 
-void InfoBox::handleCloseClicked() {
+void InfoBox::handleCloseClicked()
+{
     accept();
 }

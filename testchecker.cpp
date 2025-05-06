@@ -13,9 +13,10 @@
 
 #include "testchecker.h"
 
-TestChecker::TestChecker() {step = 1;}
+TestChecker::TestChecker() { step = 1; }
 
-void TestChecker::checkPlacement(QString part, QPoint location) {
+void TestChecker::checkPlacement(QString part, QPoint location)
+{
     QString reason = "Correct";
     bool correctness = true;
 
@@ -25,7 +26,7 @@ void TestChecker::checkPlacement(QString part, QPoint location) {
 
     else {
 
-        switch(step) {
+        switch (step) {
 
         case 1:
 
@@ -54,8 +55,7 @@ void TestChecker::checkPlacement(QString part, QPoint location) {
                 if (location != QPoint(315, 295)) {
                     correctness = false;
                     reason = "Not the right location for the CPU!";
-                }
-                else {
+                } else {
                     reason = "Great job, the CPU is right where it should be.";
                 }
             }
@@ -64,8 +64,7 @@ void TestChecker::checkPlacement(QString part, QPoint location) {
                 if (location != QPoint(260, 370)) {
                     correctness = false;
                     reason = "Not the right location for the memory!";
-                }
-                else {
+                } else {
                     reason = "Well done, your computer now has memory.";
                 }
             }
@@ -74,8 +73,7 @@ void TestChecker::checkPlacement(QString part, QPoint location) {
                 if (location != QPoint(200, 370)) {
                     correctness = false;
                     reason = "Not the right location for the GPU!";
-                }
-                else {
+                } else {
                     reason = "Nice, all your graphics are going to look great now.";
                 }
             }
@@ -84,8 +82,7 @@ void TestChecker::checkPlacement(QString part, QPoint location) {
                 if (location != QPoint(423, 270) && location != QPoint(443, 270)) {
                     correctness = false;
                     reason = "Not the right location for the RAM!";
-                }
-                else{
+                } else {
                     reason = "Way to go, you installed the RAM stick correctly.";
                 }
             }
@@ -101,6 +98,7 @@ void TestChecker::checkPlacement(QString part, QPoint location) {
     }
 }
 
-int TestChecker::sendCurrentStep() {
+int TestChecker::sendCurrentStep()
+{
     return step;
 }

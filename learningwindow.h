@@ -3,7 +3,6 @@
 
 /**
  * @file learningwindow.h
- *
  * @brief Header file for the learningwindow class.
  *
  * This class provides an interactive interface where users can click on PC parts to learn
@@ -16,19 +15,19 @@
 #include "testwindow.h"
 
 #include <QMainWindow>
-#include <QPropertyAnimation>
 #include <QMap>
+#include <QPropertyAnimation>
 
 namespace Ui { class LearningWindow; }
 
 /**
  * @class LearningWindow
- *
  * @brief The LearningWindow class handles the learning phase of the application,
  *        where users can click on each part for information. Users can also perform
  *        an assemble demostration using the assemble or step-by-step features.
  */
-class LearningWindow : public QMainWindow {
+class LearningWindow : public QMainWindow
+{
     Q_OBJECT
 
 public:

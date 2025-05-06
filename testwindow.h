@@ -15,15 +15,15 @@
  * @date 04/22/2025
  */
 
-#include <QMimeData>
-#include <QMainWindow>
-#include <QDropEvent>
-#include <QMoveEvent>
-#include <QDragMoveEvent>
-#include <QDrag>
-#include <QPoint>
-#include <QMediaPlayer>
 #include <QAudioOutput>
+#include <QDrag>
+#include <QDragMoveEvent>
+#include <QDropEvent>
+#include <QMainWindow>
+#include <QMediaPlayer>
+#include <QMimeData>
+#include <QMoveEvent>
+#include <QPoint>
 #include <QTimer>
 
 class LearningWindow;
@@ -39,7 +39,8 @@ namespace Ui { class TestWindow; }
  * It supports validation of component placement, audio feedback for correct
  * or incorrect answers, and manages internal logic for part positions.
  */
-class TestWindow : public QMainWindow {
+class TestWindow : public QMainWindow
+{
     Q_OBJECT
 
 public:

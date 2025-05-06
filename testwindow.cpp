@@ -13,19 +13,19 @@
  */
 
 #include "testwindow.h"
-#include "learningwindow.h"
-#include "ui_testwindow.h"
-#include "testchecker.h"
 #include "infobox.h"
+#include "learningwindow.h"
+#include "testchecker.h"
+#include "ui_testwindow.h"
 #include "winwindow.h"
 
 TestWindow::TestWindow(LearningWindow* learningWindow, QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::TestWindow),
     learningWindow(learningWindow),
-    lastSize(QSize(0,0)),
+    lastSize(QSize(0, 0)),
     lastName("none"),
-    location(QPoint(0,0)),
+    location(QPoint(0, 0)),
     dontMove({"caseLabel", "centralwidget"}),
     reset(false)
 {
@@ -113,57 +113,59 @@ TestWindow::TestWindow(LearningWindow* learningWindow, QWidget* parent) :
     connect(progressLabelTimer,
             &QTimer::timeout,
             this,
-            &TestWindow::updateProgressLabel);
+            &TestWindow::updateProgressLabel
+    );
 
     connect(this,
             &TestWindow::checkAnswer,
             testChecker,
             &TestChecker::checkPlacement
-            );
+    );
 
     connect(this,
             &TestWindow::getCurrentStep,
             testChecker,
             &TestChecker::sendCurrentStep
-            );
+    );
 
     connect(testChecker,
             &TestChecker::sendAnswer,
             this,
             &TestWindow::receiveAnswer
-            );
+    );
 
     connect(ui->backButton,
             &QPushButton::clicked,
             this,
             &TestWindow::onBackButtonClicked
-            );
+    );
 
     connect(this,
             &TestWindow::completedTesting,
             this,
             &TestWindow::openWinWindow
-            );
+    );
 
 }
 
-TestWindow::~TestWindow() {
+TestWindow::~TestWindow()
+{
     delete ui;
 }
 
 // SLOT
-void TestWindow::onBackButtonClicked(){
+void TestWindow::onBackButtonClicked()
+{
     this->hide();
-    TestWindow *newTestWindow = new TestWindow(nullptr);
-    LearningWindow *newLearningWindow = new LearningWindow(newTestWindow);
+    TestWindow* newTestWindow = new TestWindow(nullptr);
+    LearningWindow* newLearningWindow = new LearningWindow(newTestWindow);
     newTestWindow->setLearningWindow(newLearningWindow);
     newLearningWindow->show();
 }
 
-void TestWindow::dragEnterEvent(QDragEnterEvent* event) {
-
+void TestWindow::dragEnterEvent(QDragEnterEvent* event)
+{
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
             event->accept();
@@ -180,10 +182,9 @@ void TestWindow::dragEnterEvent(QDragEnterEvent* event) {
     }
 }
 
-void TestWindow::dragMoveEvent(QDragMoveEvent* event) {
-
+void TestWindow::dragMoveEvent(QDragMoveEvent* event)
+{
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-
         if (event->source() == this) {
             event->setDropAction(Qt::MoveAction);
             event->accept();
@@ -200,8 +201,8 @@ void TestWindow::dragMoveEvent(QDragMoveEvent* event) {
     }
 }
 
-void TestWindow::dropEvent(QDropEvent* event) {
-
+void TestWindow::dropEvent(QDropEvent* event)
+{
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
         QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
         QDataStream dataStream(&itemData, QIODevice::ReadOnly);
@@ -232,7 +233,7 @@ void TestWindow::dropEvent(QDropEvent* event) {
 
         emit checkAnswer(lastName, newLocal);
 
-        if (reset){
+        if (reset) {
             newIcon->move(location);
             reset = false;
         }
@@ -243,9 +244,11 @@ void TestWindow::dropEvent(QDropEvent* event) {
     }
 }
 
-void TestWindow::mousePressEvent(QMouseEvent* event) {
-    QLabel* child = static_cast<QLabel*>(childAt(event->pos()));
-    if (!child || dontMove.contains(child->objectName())){
+void TestWindow::mousePressEvent(QMouseEvent *event)
+{
+    QLabel* child = static_cast<QLabel *>(childAt(event->pos()));
+
+    if (!child || dontMove.contains(child->objectName())) {
         return;
     }
 
@@ -280,47 +283,48 @@ void TestWindow::mousePressEvent(QMouseEvent* event) {
     }
 }
 
-QPoint TestWindow::snapLocation(QPoint cursor) {
+QPoint TestWindow::snapLocation(QPoint cursor)
+{
     int step = emit getCurrentStep();
-    QPoint newDrop = QPoint(cursor.x() - .5*lastSize.width(), cursor.y() - .5*lastSize.height());
+    QPoint newDrop = QPoint(cursor.x() - .5 * lastSize.width(), cursor.y() - .5 * lastSize.height());
 
-    switch(step) {
-
+    switch (step) {
 
     case 1:
+
         // Motherboard location
-        if (150 <= cursor.x() && cursor.x() <= 450 && 290 <= cursor.y() && cursor.y() <= 590){
+        if (150 <= cursor.x() && cursor.x() <= 450 && 290 <= cursor.y() && cursor.y() <= 590) {
             newDrop = QPoint(200, 245);
         }
 
         break;
-
 
     case 2:
     case 3:
     case 4:
     case 5:
     case 6:
+
         // CPU location
-        if (315 <= cursor.x() && cursor.x() <= 395 && 295 <= cursor.y() && cursor.y() <= 375){
+        if (315 <= cursor.x() && cursor.x() <= 395 && 295 <= cursor.y() && cursor.y() <= 375) {
             newDrop = QPoint(315, 295);
         }
 
         // Memory location
-        else if (260 <= cursor.x() && cursor.x() <= 350 && 370 <= cursor.y() && cursor.y() <= 420){
+        else if (260 <= cursor.x() && cursor.x() <= 350 && 370 <= cursor.y() && cursor.y() <= 420) {
             return QPoint(260, 370);
         }
 
         // GPU Location
-        else if (300 <= cursor.x() && cursor.x() <= 350 && 430 <= cursor.y() && cursor.y() <= 550){
+        else if (300 <= cursor.x() && cursor.x() <= 350 && 430 <= cursor.y() && cursor.y() <= 550) {
             newDrop = QPoint(200, 370);
         }
 
         // RAM locations
-        else if (420 <= cursor.x() && cursor.x() <= 440 && 280 <= cursor.y() && cursor.y() <= 410){
+        else if (420 <= cursor.x() && cursor.x() <= 440 && 280 <= cursor.y() && cursor.y() <= 410) {
             return QPoint(423, 270);
-        }
-        else if (440 <= cursor.x() && cursor.x() <= 460 && 280 <= cursor.y() && cursor.y() <= 410){
+        } else if (440 <= cursor.x() && cursor.x() <= 460 && 280 <= cursor.y()
+                   && cursor.y() <= 410) {
             return QPoint(443, 270);
         }
 
@@ -330,7 +334,8 @@ QPoint TestWindow::snapLocation(QPoint cursor) {
     return newDrop;
 }
 
-void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, QPoint newLocation) {
+void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, QPoint newLocation)
+{
     int step = emit getCurrentStep() - 1;
     if (step == 6 && correctness) {
         location = newLocation;
@@ -369,7 +374,9 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
         if (ui->progressBar->value() >= 50) {
             ui->progressLabel->show();
             ui->progressLabel->setText("Almost There!");
-        } else {
+        }
+
+        else {
             ui->progressLabel->hide();
         }
 
@@ -388,7 +395,7 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
         badAudio->play();
 
         // Create info box with the reason why you were incorrect.
-        InfoBox* dialog = new InfoBox("Incorrect", reason, this);
+        InfoBox *dialog = new InfoBox("Incorrect", reason, this);
         dialog->exec();
 
         // Close when done.
@@ -396,17 +403,20 @@ void TestWindow::receiveAnswer(bool correctness, QString reason, QString part, Q
     }
 }
 
-void TestWindow::setLearningWindow(LearningWindow* learningWindow){
+void TestWindow::setLearningWindow(LearningWindow* learningWindow)
+{
     this->learningWindow = learningWindow;
 }
 
-void TestWindow::updateProgressLabel() {
+void TestWindow::updateProgressLabel()
+{
     ui->progressLabel->setStyleSheet(
         QString("color: %1; font-size: 60px;").arg(progressLabelColors[progressLabelIndex]));
     progressLabelIndex = (progressLabelIndex + 1) % progressLabelColors.size();
 }
 
-void TestWindow::openWinWindow() {
+void TestWindow::openWinWindow()
+{
     WinWindow* winWindow = new WinWindow(this);
     winWindow->show();
 }

@@ -16,8 +16,8 @@
  */
 
 #include "learningwindow.h"
-#include "ui_learningwindow.h"
 #include "infobox.h"
+#include "ui_learningwindow.h"
 
 LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
     QMainWindow(parent),
@@ -39,11 +39,11 @@ LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
 
     // Store the original positions and sizes of the labels.
     originalPosSizes["case"] = qMakePair(ui->caseLabel->pos(), ui->caseLabel->size());
-    originalPosSizes["memory"] = qMakePair( ui->memoryLabel->pos(), ui->memoryLabel->size());
-    originalPosSizes["motherboard"] = qMakePair( ui->motherboardLabel->pos(), ui->motherboardLabel->size());
-    originalPosSizes["gpu"] = qMakePair( ui->gpuLabel->pos(), ui->gpuLabel->size());
-    originalPosSizes["cpu"] = qMakePair( ui->cpuLabel->pos(), ui->cpuLabel->size());
-    originalPosSizes["ram"] = qMakePair( ui->ramLabel->pos(), ui->ramLabel->size());
+    originalPosSizes["memory"] = qMakePair(ui->memoryLabel->pos(), ui->memoryLabel->size());
+    originalPosSizes["motherboard"] = qMakePair(ui->motherboardLabel->pos(), ui->motherboardLabel->size());
+    originalPosSizes["gpu"] = qMakePair(ui->gpuLabel->pos(), ui->gpuLabel->size());
+    originalPosSizes["cpu"] = qMakePair(ui->cpuLabel->pos(), ui->cpuLabel->size());
+    originalPosSizes["ram"] = qMakePair(ui->ramLabel->pos(), ui->ramLabel->size());
 
     // PC Case Image
     QPixmap casePixmap(":/images/case.png");
@@ -113,24 +113,26 @@ LearningWindow::LearningWindow(TestWindow* testWindow, QWidget* parent) :
 
 }
 
-LearningWindow::~LearningWindow() {
+LearningWindow::~LearningWindow()
+{
     delete ui;
 }
 
-void LearningWindow::onTestButtonClicked() {
+void LearningWindow::onTestButtonClicked()
+{
     this->hide();
     testWindow->show();
 }
 
-void LearningWindow::showInfo(const QString& title, const QString& text) {
+void LearningWindow::showInfo(const QString& title, const QString& text)
+{
     InfoBox* dialog = new InfoBox(title, text, this);
     dialog->exec();
     delete dialog;
 }
 
-// SLOT
-void LearningWindow::assemblePC() {
-
+void LearningWindow::assemblePC()
+{
     // Set the position and size for the parts.
     if (!isAssembled) {
         animatePart(ui->gpuLabel, QPoint(175, 200), QSize(200, 220));
@@ -158,11 +160,9 @@ void LearningWindow::assemblePC() {
     ui->testButton->raise();
 }
 
-// SLOT
-void LearningWindow::toggleStepByStep() {
-
+void LearningWindow::toggleStepByStep()
+{
     if (stepByStepToggled) {
-
         // Return PC parts to their original positions
         ui->nextButton->setEnabled(false);
         ui->previousButton->setEnabled(false);
@@ -180,7 +180,6 @@ void LearningWindow::toggleStepByStep() {
     }
 
     else {
-
         ui->nextButton->setEnabled(true);
         ui->assembleButton->setEnabled(false);
         currentStep = 0;
@@ -198,40 +197,40 @@ void LearningWindow::toggleStepByStep() {
     }
 }
 
-void LearningWindow::nextStep() {
-
+void LearningWindow::nextStep()
+{
     // Move Motherboard into place, Enable previousButton if first step
     if (currentStep == 0) {
         ui->previousButton->setEnabled(true);
-        previousPosSizes["motherboard"] = qMakePair( ui->motherboardLabel->pos(), ui->motherboardLabel->size());
+        previousPosSizes["motherboard"] = qMakePair(ui->motherboardLabel->pos(), ui->motherboardLabel->size());
         animatePart(ui->motherboardLabel, QPoint(215, 150), QSize(245, 245));
         ui->stepByStepLabel->setText("First, screw the motherboard into the case.");
     }
 
     // Move CPU into place
     else if (currentStep == 1) {
-        previousPosSizes["cpu"] = qMakePair( ui->cpuLabel->pos(), ui->cpuLabel->size());
+        previousPosSizes["cpu"] = qMakePair(ui->cpuLabel->pos(), ui->cpuLabel->size());
         animatePart(ui->cpuLabel, QPoint(305, 190), QSize(75, 75));
         ui->stepByStepLabel->setText("Next, gently install the CPU into the motherboard.");
     }
 
     // Move GPU into place
     else if (currentStep == 2) {
-        previousPosSizes["gpu"] = qMakePair( ui->gpuLabel->pos(), ui->gpuLabel->size());
+        previousPosSizes["gpu"] = qMakePair(ui->gpuLabel->pos(), ui->gpuLabel->size());
         animatePart(ui->gpuLabel, QPoint(220, 265), QSize(160, 160));
         ui->stepByStepLabel->setText("Then, carefully push the GPU into the GPU slot below the CPU until you hear a click.");
     }
 
     // Move RAM into place
     else if (currentStep == 3) {
-        previousPosSizes["ram"] = qMakePair( ui->ramLabel->pos(), ui->ramLabel->size());
+        previousPosSizes["ram"] = qMakePair(ui->ramLabel->pos(), ui->ramLabel->size());
         animatePart(ui->ramLabel, QPoint(395, 170), QSize(15, 105));
         ui->stepByStepLabel->setText("Then, carefully push the RAM into the RAM slots next to the CPU until you hear a click.");
     }
 
     // Move Memory into place
     else if (currentStep == 4) {
-        originalPosSizes["memory"] = qMakePair( ui->memoryLabel->pos(), ui->memoryLabel->size());
+        originalPosSizes["memory"] = qMakePair(ui->memoryLabel->pos(), ui->memoryLabel->size());
         animatePart(ui->memoryLabel, QPoint(260, 255), QSize(80, 40));
         ui->stepByStepLabel->setText("Finally, install the SSD above the GPU slot.");
         ui->nextButton->setEnabled(false);
@@ -240,8 +239,8 @@ void LearningWindow::nextStep() {
     currentStep++;
 }
 
-void LearningWindow::previousStep() {
-
+void LearningWindow::previousStep()
+{
     if (currentStep == 1) {
         ui->previousButton->setEnabled(false);
         animatePart(ui->motherboardLabel, previousPosSizes["motherboard"].first, previousPosSizes["motherboard"].second);
@@ -258,7 +257,7 @@ void LearningWindow::previousStep() {
         ui->stepByStepLabel->setText("Next, gently install the CPU into the motherboard.");
     }
 
-    else if(currentStep == 4) {
+    else if (currentStep == 4) {
         animatePart(ui->ramLabel, previousPosSizes["ram"].first, previousPosSizes["ram"].second);
         ui->stepByStepLabel->setText("Then, carefully push the GPU into the GPU slot below the CPU until you hear a click.");
     }
@@ -272,8 +271,8 @@ void LearningWindow::previousStep() {
     currentStep--;
 }
 
-void LearningWindow::animatePart(QWidget* part, const QPoint& endPos, const QSize& endSize) {
-
+void LearningWindow::animatePart(QWidget* part, const QPoint& endPos, const QSize& endSize)
+{
     // Set up postioning animation.
     QPropertyAnimation* posAnim = new QPropertyAnimation(part, "pos");
     posAnim->setDuration(1800);
@@ -290,43 +289,57 @@ void LearningWindow::animatePart(QWidget* part, const QPoint& endPos, const QSiz
     sizeAnim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
-bool LearningWindow::eventFilter(QObject* watched, QEvent* event) {
-
+bool LearningWindow::eventFilter(QObject* watched, QEvent* event)
+{
     if (event->type() == QEvent::MouseButtonPress) {
-
         if (watched == ui->gpuLabel) {
-            showInfo("Graphics Processing Unit", "The GPU is responsible for displaying images, video, and animations on your screen. "
-                        "\n\nIt handles complex visual calculations and connects to the motherboard using PCIe slots.");
+            showInfo("Graphics Processing Unit",
+                     "The GPU is responsible for displaying images, video, and animations on your "
+                     "screen. "
+                     "\n\nIt handles complex visual calculations and connects to the motherboard "
+                     "using PCIe slots.");
             return true;
         }
 
         else if (watched == ui->cpuLabel) {
-            showInfo("Central Processing Unit", "The CPU is the \"brain\" of the computer. It processes all the instructions and calculations needed to run programs. "
-                        "\n\nThis connects to the motherboard’s CPU socket.");
+            showInfo("Central Processing Unit",
+                     "The CPU is the \"brain\" of the computer. It processes all the instructions "
+                     "and calculations needed to run programs. "
+                     "\n\nThis connects to the motherboard’s CPU socket.");
             return true;
         }
 
         else if (watched == ui->ramLabel) {
-            showInfo("Random Access Memory", "RAM temporarily stores data that the CPU uses while the computer is on. "
-                        "\n\nIt allows programs to run smoothly and is installed into the motherboard’s RAM slots.");
+            showInfo("Random Access Memory",
+                     "RAM temporarily stores data that the CPU uses while the computer is on. "
+                     "\n\nIt allows programs to run smoothly and is installed into the "
+                     "motherboard’s RAM slots.");
             return true;
         }
 
         else if (watched == ui->memoryLabel) {
-            showInfo("M.2 Solid State Drive", "This is a high-speed memory storage device that holds your files, programs, and operating system. "
-                        "\n\nIt plugs directly into the motherboard’s M.2 slot for faster performance.");
+            showInfo(
+                "M.2 Solid State Drive",
+                "This is a high-speed memory storage device that holds your files, programs, and "
+                "operating system. "
+                "\n\nIt plugs directly into the motherboard’s M.2 slot for faster performance.");
             return true;
         }
 
         else if (watched == ui->caseLabel) {
-            showInfo("Computer Case", "The case is the protective enclosure that houses all components of the PC. "
-                        "\n\nIt provides structure, airflow, and protection for the internal hardware.");
+            showInfo(
+                "Computer Case",
+                "The case is the protective enclosure that houses all components of the PC. "
+                "\n\nIt provides structure, airflow, and protection for the internal hardware.");
             return true;
         }
 
         else if (watched == ui->motherboardLabel) {
-            showInfo("Motherboard", "The motherboard is the main circuit board that connects all the computer's components. "
-                        "\n\nIt provides slots and sockets for the CPU, RAM, GPU, storage, and more, allowing them to communicate.");
+            showInfo("Motherboard",
+                     "The motherboard is the main circuit board that connects all the computer's "
+                     "components. "
+                     "\n\nIt provides slots and sockets for the CPU, RAM, GPU, storage, and more, "
+                     "allowing them to communicate.");
 
             return true;
         }

@@ -13,24 +13,23 @@
  * @date 04/22/2025
  */
 
+#include <QLabel>
 #include <QMainWindow>
 #include <Box2D/Box2D.h>
-#include <QLabel>
 
-namespace Ui {
-class WinWindow;
-}
+namespace Ui { class WinWindow; }
 
 class WinWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
+
     /**
      * @brief Constructor
      * @param parent Optional parent widget.
      */
-    explicit WinWindow(QWidget *parent = nullptr);
+    explicit WinWindow(QWidget* parent = nullptr);
 
     /**
      * @brief Destructor
@@ -38,10 +37,11 @@ public:
     ~WinWindow();
 
 private:
+
     /**
      * @brief The ui
      */
-    Ui::WinWindow *ui;
+    Ui::WinWindow* ui;
 
     /**
      * @brief False if the user is not dragging the body (the PC image);
@@ -77,7 +77,7 @@ private:
      * @param x The x coordinate in Box2D
      * @param y The y coordinate in Box2D
      */
-    void translateMove(QLabel *object, float x, float y);
+    void translateMove(QLabel* object, float x, float y);
 
     /**
      * @brief Handles the dragging and moving of the body.
@@ -99,6 +99,7 @@ public slots:
      * @brief Instruct the world to perform a single step of simulation (60 Hz)
      */
     void updateWorld();
+
 };
 
 #endif // WINWINDOW_H
