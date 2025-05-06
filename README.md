@@ -15,18 +15,6 @@ Built with C++ and the Qt framework, it combines interactive learning with hands
 - Qt Framework: For GUI components and application structure.
 - QMake: Build system (PC-Builder.pro project file).
 
-## 📁 Project Structure
-```bash
-PC-Builder/
-├── LearningWindow.cpp/.h/.ui      # Learning screen to explore PC parts
-├── TestWindow.cpp/.h/.ui          # Drag-and-drop testing interface
-├── AssembleWindow.cpp/.h/.ui      # PC assembly preview screen
-├── WelcomeWindow.cpp/.h/.ui       # Entry screen with Begin button
-├── main.cpp                       # Application entry point
-├── PC-Builder.pro                 # QMake project file
-└── .gitignore                     # Git ignore rules
-```
-
 ## 🚀 Getting Started
 **Prerequisites**
 - Qt Creator installed on your system.
